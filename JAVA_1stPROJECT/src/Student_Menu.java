@@ -25,7 +25,8 @@ public class Student_Menu extends Menu {
 		Scanner sc = new Scanner(System.in);
 		int choice = 0;
 
-		while (true) {
+		boolean run = false;
+		while (!run) {
 
 			switch (choice) {
 
@@ -48,15 +49,15 @@ public class Student_Menu extends Menu {
 					} else {// false면 통과
 						boolean chkId = true;
 						// chkId = findEmail(tmp);
-						if (!chkId) {
-							System.out.println("사용 가능한 ID 입니다.");
-							getAccountId = tmp;
-							choice++;
-							flag = false;
-						} else {
-							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
-							flag = true;
-						}
+//						if (!chkId) {
+//							System.out.println("사용 가능한 ID 입니다.");
+//							getAccountId = tmp;
+//							choice++;
+//							flag = false;
+//						} else {
+//							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+//							flag = true;
+//						}
 					}
 				}
 			case 2:
@@ -64,7 +65,7 @@ public class Student_Menu extends Menu {
 				tmp = sc.nextLine();
 				boolean pwdregex = Pattern.matches(pwdPattern, tmp);
 
-				if (pwdregex) {
+				if (!pwdregex) {
 					System.out.print("비밀번호 형식이 잘못되었습니다. 다시 입력해주세요");
 					break;
 				} else {
@@ -99,6 +100,8 @@ public class Student_Menu extends Menu {
 						accounts.add(new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber));
 					}
 				}
+				run = true;
+				break;
 			}
 		}
 
@@ -122,12 +125,106 @@ public class Student_Menu extends Menu {
 	// 출결확인
 	@Override
 	void checkAttendance() {
-
+		Scanner sc = new Scanner(System.in);
+		boolean run = false;
+		
+		while(!run) {
+			System.out.print("[1]나의근태 현황  [2]그룹근태 현황  [0]돌아가기  :");
+			int menu = Integer.parseInt(sc.nextLine());
+			System.out.println();
+			
+			switch(menu) {
+			case 1:
+				//나의 근태 현황 가져오기~ (전부)
+				break;
+				
+			case 2:
+				//같은 반 학생들의 근태 현황 가져오기~ (당일)
+				break;
+				
+			case 0:
+				run = true;
+				break;
+				
+			default:
+				System.out.println("잘못된 메뉴를 선택하셨습니다.");
+			}
+		}
 	}
 
 	@Override
 	void editInfo() {
-
+		Scanner sc = new Scanner(System.in);
+		//비밀번호 입력
+		
+		//1. 비밀번호가 맞으면
+			//휴대폰 번호 수정
+				//1.1 양식에 어긋나면, 재 입력
+			//비밀번호 변경
+				//1.1 양식에 어긋나면, 재 입력
+				//1.2 (비밀번호) 일치 안하면, 재 입력
+		//2. 비밀번호가 틀리면
+			//재 입력
+		String password="";
+		boolean run = false;
+		while(!run) {
+			if(password.equals("")) {
+				System.out.print("비밀번호를 입력하세요: ");
+				password = sc.nextLine();
+				System.out.println();
+				
+				if(!password.contains(password)) {
+					System.out.println("비밀번호가 일치하지 않습니다.");
+					password = "";
+				}
+			} else {
+				System.out.print("메뉴를 선택하세요: [1]휴대폰 번호 변경  [2]비밀번호 변경  [0]이전 메뉴로 돌아가기 : ");
+				int menu = Integer.parseInt(sc.nextLine());
+				System.out.println();
+				
+				switch(menu) {
+				case 1:
+					//휴대폰 번호 변경
+					System.out.print("변경할 휴대폰 번호를 입력하세요: ");
+					String phoneNumber = sc.nextLine();
+					System.out.println();
+					if(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber)) {
+						System.out.println("휴대폰 번호 형식에 맞지 않습니다.");
+					} else {
+						//휴대폰 번호 변경~~
+					}
+					break;
+					
+				case 2:
+					//비밀번호 변경
+					System.out.print("새 비밀번호를 입력하세요: \n글자 수 제한 10~16자\n(영문자, 숫자 포함, 특수문자 포함)");
+					String newPassword = sc.nextLine();
+					System.out.println();
+					if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)([!@#$%*?&]?)[A-Za-z\\d!@#$%*?&]{10,16}$",newPassword)) {
+						System.out.println("입력하신 비밀번호가 양식에 맞지 않습니다.");
+					} else {
+						System.out.print("비밀번호를 한번 더 입력하세요: ");
+						String newPasswordCheck = sc.nextLine();
+						System.out.println();
+						//비밀번호가 일치 안 하는 경우
+						if(!newPassword.equals(newPasswordCheck)) {
+							System.out.println("비밀번호가 일치하지 않습니다.");
+						} else {
+							System.out.println("비밀번호가 변경되었습니다.");
+							//비밀번호 변경~~
+						}
+					}
+					break;
+					
+				case 0:
+					run = true;
+					break;
+					
+				default:
+					System.out.println("잘못된 메뉴를 선택하셨습니다.");
+				}
+			}
+		}
 	}
 
 	@Override
