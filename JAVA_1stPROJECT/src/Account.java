@@ -30,5 +30,7 @@ public class Account implements Serializable {
 		return "Account [이름=" + name + ", accountId=" + accountId + ", phoneNumber=" + phoneNumber + ", passWord="
 				+ passWord + ", classNumber=" + classNumber + "]";
 	}
+	
+	
  
 }

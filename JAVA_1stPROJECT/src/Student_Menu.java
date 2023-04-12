@@ -9,14 +9,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 	String filename = "db.txt";
 	File fileS = new File(filename);
 	
-	List<Account> accounts = new ArrayList<>();
-	HashMap<String,Account> map = new HashMap<>();
+	public List<Account> accounts = new ArrayList<>();
+	public HashMap<String,Account> map = new HashMap<>();
 	
 	public void signUp() {
 		String getAccountId = "";
@@ -117,11 +118,11 @@ public class Student_Menu extends Menu {
 						ObjectOutputStream oos = null;
 						
 						try {
-							fos = new FileOutputStream(fileS, true);
+							fos = new FileOutputStream(filename, true);
 							bos = new BufferedOutputStream(fos);
 							oos = new ObjectOutputStream(bos);
 							
-							oos.writeUTF(acc.toString());
+							oos.writeObject(map);
 							
 						}catch (Exception e) {
 							e.printStackTrace();
@@ -141,12 +142,15 @@ public class Student_Menu extends Menu {
 						ObjectInputStream ois = null;
 						
 						try {
-							fis = new FileInputStream(fileS);
+							fis = new FileInputStream(filename);
 							bis = new BufferedInputStream(fis);
 							ois = new ObjectInputStream(bis);
-							Object user = null;
-							while((user = ois.readObject()) != null) {
-								System.out.println(((Account)user).toString());
+						
+							map = (HashMap)ois.readObject();
+							Set<String> set = map.keySet();
+							
+							for(String str : set) {
+								System.out.println(map.get(getAccountId).toString());
 							}
 						} catch (Exception e2) {
 							e2.printStackTrace();
