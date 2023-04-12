@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
 //회원가입양식 클래스
-public class Account { 
+public class Account implements Serializable { 
 	
 	private String accountId;
 	private String passWord;

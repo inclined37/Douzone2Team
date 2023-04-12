@@ -1,11 +1,22 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
-
+	String filename = "db.txt";
+	File fileS = new File(filename);
+	
 	List<Account> accounts = new ArrayList<>();
+	HashMap<String,Account> map = new HashMap<>();
 	
 	public void signUp() {
 		String getAccountId = "";
@@ -15,8 +26,6 @@ public class Student_Menu extends Menu {
 		int getClassNumber = 0;
 
 		Account account;
-		
-		//List<Account> accounts = new ArrayList<>(); // 리스트는 메뉴에 생성할 예정
 
 		String idPattern = "^.+@[^\\\\.].*\\\\.[a-z]{2,}$"; // 이메일 형식
 		String pwdPattern = "^(?=.*[A-Za-z])(?=.*\\d)([!@#$%*?&]?)[A-Za-z\\d!@#$%*?&]{10,16}$"; // 비밀번호 형식
@@ -97,7 +106,59 @@ public class Student_Menu extends Menu {
 						break;
 					} else {
 						System.out.print("모든 정보가 정상적으로 입력되었습니다.");
-						accounts.add(new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber));
+						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
+						accounts.add(acc);
+						map.put(getAccountId, acc);
+						
+						String filename = "name.txt";
+						
+						FileOutputStream fos = null;
+						BufferedOutputStream bos = null;
+						ObjectOutputStream oos = null;
+						
+						try {
+							fos = new FileOutputStream(fileS, true);
+							bos = new BufferedOutputStream(fos);
+							oos = new ObjectOutputStream(bos);
+							
+							oos.writeUTF(acc.toString());
+							
+						}catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							try {
+								oos.close();
+								bos.close();
+								fos.close();
+							} catch (Exception e2){
+								e2.printStackTrace();
+							}
+						}
+						
+						
+						FileInputStream fis = null;
+						BufferedInputStream bis = null;
+						ObjectInputStream ois = null;
+						
+						try {
+							fis = new FileInputStream(fileS);
+							bis = new BufferedInputStream(fis);
+							ois = new ObjectInputStream(bis);
+							Object user = null;
+							while((user = ois.readObject()) != null) {
+								System.out.println(((Account)user).toString());
+							}
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						} finally {
+							try {
+								ois.close();
+								bis.close();
+								fis.close();
+							} catch (Exception e3) {
+								e3.printStackTrace();
+							}
+						}
 					}
 				}
 				run = true;
