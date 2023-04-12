@@ -183,6 +183,7 @@ public class Student_Menu extends Menu {
 	@Override
 	void editInfo() {
 		Scanner sc = new Scanner(System.in);
+
 		// 비밀번호 입력
 
 		// 1. 비밀번호가 맞으면
@@ -235,6 +236,7 @@ public class Student_Menu extends Menu {
 						System.out.print("비밀번호를 한번 더 입력하세요: ");
 						String newPasswordCheck = sc.nextLine();
 						System.out.println();
+
 						// 비밀번호가 일치 안 하는 경우
 						if (!newPassword.equals(newPasswordCheck)) {
 							System.out.println("비밀번호가 일치하지 않습니다.");
@@ -248,6 +250,7 @@ public class Student_Menu extends Menu {
 				case 0:
 					run = true;
 					break;
+
 
 				default:
 					System.out.println("잘못된 메뉴를 선택하셨습니다.");
