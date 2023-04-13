@@ -201,6 +201,7 @@ public class Student_Menu extends Menu {
 					} else {
 						//getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber
 						map.replace(loginId, new Account(map.get(loginId).getName(), loginId, map.get(loginId).getPassWord(), phoneNumber, map.get(loginId).getClassNumber()));
+						save(map, fileName);
 					}
 					break;
 
@@ -223,6 +224,7 @@ public class Student_Menu extends Menu {
 						} else {
 							System.out.println("비밀번호가 변경되었습니다.");
 							map.replace(loginId, new Account(map.get(loginId).getName(), loginId, newPassword, map.get(loginId).getPhoneNumber(), map.get(loginId).getClassNumber()));
+							save(map, fileName);
 						}
 					}
 					break;
