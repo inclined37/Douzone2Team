@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 
+
 //	private boolean dataChange;
 	// 데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면
 	// 이 변수값이 true가된다.
@@ -50,7 +51,6 @@ public class Student_Menu extends Menu {
 				choice++;
 			case 1:
 				boolean flag = true;
-
 				while (flag) { // true이면 계속 돌고 false은 통과!!!!!!!
 					System.out.print("회원가입 하실 이메일 주소를 입력해주세요 (example@gmail.com) :");
 					flag = false;
@@ -61,15 +61,15 @@ public class Student_Menu extends Menu {
 						System.out.print("이메일 형식이 잘못되었습니다.다시 입력해주세요");
 						flag = true;
 					} else {// false면 통과
-						boolean chkId = true;
-						chkId = findEmail(tmp);
-						if (!chkId) {
+						System.out.println("##맵##" + map.containsKey(tmp));
+						if(!map.containsKey(tmp)) { //다르면 사용 가능하다.
+							
 							System.out.println("사용 가능한 ID 입니다.");
 							getAccountId = tmp;
 							choice++;
 							flag = false;
-						} else {
-							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+						}else {
+							System.out.println("ID가 존재합니다. 다른 ID로 입력해주세요.");
 							flag = true;
 						}
 					}
@@ -118,6 +118,7 @@ public class Student_Menu extends Menu {
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성
 						System.out.println("******" + map.get(getAccountId).getName());
 						save(map, fileName); 
+
 					}
 				}
 				run = true;
@@ -125,16 +126,6 @@ public class Student_Menu extends Menu {
 			}
 		}
 
-	}
-
-//	 이메일주소 일치 확인
-	public boolean findEmail(String email) {
-		for (Account ac : this.accounts) {
-			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-				return true;
-			}
-		}
-		return false; // 통과
 	}
 
 	public void attendance() {
@@ -186,7 +177,7 @@ public class Student_Menu extends Menu {
 				password = sc.nextLine();
 				System.out.println();
 
-				if (!password.contains(password)) {
+				if (!map.get(loginId).getPassWord().equals(password)) {
 					System.out.println("비밀번호가 일치하지 않습니다.");
 					password = "";
 				}
@@ -204,7 +195,8 @@ public class Student_Menu extends Menu {
 					if (!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber)) {
 						System.out.println("휴대폰 번호 형식에 맞지 않습니다.");
 					} else {
-						// 휴대폰 번호 변경~~
+						//getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber
+						map.replace(loginId, new Account(map.get(loginId).getName(), loginId, map.get(loginId).getPassWord(), phoneNumber, map.get(loginId).getClassNumber()));
 					}
 					break;
 
@@ -226,7 +218,7 @@ public class Student_Menu extends Menu {
 							System.out.println("비밀번호가 일치하지 않습니다.");
 						} else {
 							System.out.println("비밀번호가 변경되었습니다.");
-							// 비밀번호 변경~~
+							map.replace(loginId, new Account(map.get(loginId).getName(), loginId, newPassword, map.get(loginId).getPhoneNumber(), map.get(loginId).getClassNumber()));
 						}
 					}
 					break;
@@ -246,9 +238,9 @@ public class Student_Menu extends Menu {
 	void MenuRun() {
 		
 		// login();
+	
 		Scanner sc = new Scanner(System.in);
-		// load();
-		// 가입/로그인
+ 
 		boolean run1 = false;
 		while (!run1) {
 			System.out.println("********************************************");
@@ -296,7 +288,7 @@ public class Student_Menu extends Menu {
 			}
 		}
 	}
-
+}
 //	private void save(HashMap<String, Account> map) { // 직렬화(저장)만 하면 된다.
 //
 //		File file = new File(fileName);
@@ -332,5 +324,3 @@ public class Student_Menu extends Menu {
 //			e.printStackTrace();
 //		}
 //	}
-
-}

@@ -15,11 +15,11 @@ public abstract class Menu {
 	int menu;
 
 	Scanner scan = new Scanner(System.in);
-
 	public HashMap<String, Account> map = new HashMap<>(); // 키: id / 값: 그 외 정보를 학생, 관리자 로그인 정보를 각각 사용 예정
-
+	String loginId = "";
 	// 로그인
 	public boolean login() {
+		load("test.txt");
 		System.out.println("로그인 합니다.");
 
 		String accountId;
@@ -33,10 +33,11 @@ public abstract class Menu {
 			System.out.print("accountPw 입력: ");
 			accountPw = scan.nextLine();
 
-			if (map.get(accountId).getPassWord() == accountPw) {
+			if (map.get(accountId).getPassWord().equals(accountPw)) {
 				// showMenu
 				System.out.println("로그인에 성공하였습니다.");
 				System.out.println(map.get(accountId).getName() + " 님 안녕하세요 ^^");
+				loginId = accountId;
 				return true;
 			} else {
 				System.out.println("입력한 accountPw가 일치하지 않습니다.");

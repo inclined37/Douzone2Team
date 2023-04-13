@@ -14,6 +14,8 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void checkAttendance() {
+
+		load("test.txt");
 		// 관리자는 모든 학생의 출결정보를 조회할 수 있다
 		// 1. 관리자는 학생 출결 조회 메뉴로 간다.
 		// 2. 관리자는 학생들의 출결을 조회한다.
