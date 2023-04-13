@@ -1,25 +1,21 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public abstract class Menu {
 	int menu;
 
-	//출석기록 담는 map
-//	public HashMap<String,List> attmap = new HashMap<>();
-	//출석 기록
-//	List<String> attendancerecord = new ArrayList<>();
 	Scanner scan = new Scanner(System.in);
 	public HashMap<String, Account> map = new HashMap<>(); // 키: id / 값: 그 외 정보를 학생, 관리자 로그인 정보를 각각 사용 예정
 	String loginId = "";
@@ -62,9 +58,6 @@ public abstract class Menu {
 	// 출결현황 확인
 	abstract void checkAttendance();
 
-	// 개인정보 수정
-	abstract void editInfo();
-
 	
 	public void save(HashMap<String, Account> map, String path) { // 직렬화(저장)만 하면 된다.
 
@@ -101,4 +94,38 @@ public abstract class Menu {
 			e.printStackTrace();
 		}
 	}
+	
+	public void loadlist(String path) throws IOException{
+		File f = new File(path);
+		FileReader fr = new FileReader(f);
+		BufferedReader br1 = new BufferedReader(fr);
+
+		try {
+		    while(true) {
+			    // 개행하며 한 줄씩 읽어들이기
+			    String s = br1.readLine();
+			    if(s == null) break;
+			    System.out.println(s);
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		br1.close();
+	}
+	
+	public void writelist(String path, String data) throws IOException{
+		File f = new File(path);
+		FileWriter fw = new FileWriter(f,true);
+		BufferedWriter bw = new BufferedWriter(fw, 1024);
+		PrintWriter pw = new PrintWriter(bw);
+		
+		try {
+		    pw.println(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pw.close();
+	}	
+	
 }
