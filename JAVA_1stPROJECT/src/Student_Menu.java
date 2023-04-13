@@ -16,12 +16,12 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 	
-	private String fileName = " ";//경로 지정해주세요 
+	private String fileName = "D:\\Douzone\\JAVA\\First_Project\\Douzone2Team\\test.txt";//경로 지정해주세요 
 	HashMap<String,Account> smap =  super.map; // 회원정보 가져오기
     private boolean dataChange;
     //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
     //이 변수값이 true가된다.
-	
+    HashMap<String, Account> pMap = null;
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
 	//super.login(map);
@@ -75,16 +75,16 @@ public class Student_Menu extends Menu {
 						flag = true;
 					} else {// false면 통과
 						boolean chkId = true;
-						// chkId = findEmail(tmp);
-//						if (!chkId) {
-//							System.out.println("사용 가능한 ID 입니다.");
-//							getAccountId = tmp;
-//							choice++;
-//							flag = false;
-//						} else {
-//							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
-//							flag = true;
-//						}
+						chkId = findEmail(tmp);
+						if (!chkId) {
+							System.out.println("사용 가능한 ID 입니다.");
+							getAccountId = tmp;
+							choice++;
+							flag = false;
+						} else {
+							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+							flag = true;
+						}
 					}
 				}
 			case 2:
@@ -144,15 +144,15 @@ public class Student_Menu extends Menu {
 
 	}
 
-	// 이메일주소 일치 확인
-//	public boolean findEmail(String email) {
-//		for (Account ac : this.accounts) {
-//			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-//				return true;
-//			}
-//		}
-//		return false; // 통과
-//	}
+//	 이메일주소 일치 확인
+	public boolean findEmail(String email) {
+		for (Account ac : this.accounts) {
+			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
+				return true;
+			}
+		}
+		return false; // 통과
+	}
 
 
 	public void attendance() {
@@ -341,7 +341,7 @@ public class Student_Menu extends Menu {
 	
 	private HashMap<String,Account> load() { //읽어오기(역직렬화)
 		
-		HashMap<String, Account> pMap = null;
+		
 		File file = new File(fileName);
 		
 		if(!file.exists()) {
