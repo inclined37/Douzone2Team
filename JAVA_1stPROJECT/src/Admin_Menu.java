@@ -82,10 +82,11 @@ public class Admin_Menu extends Menu {
 		String stuID = sc.nextLine();
 		
 		Account oldClass = map.get(stuID);
-		System.out.println("변경할 반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
+		System.out.println("변경할 반번호를 입력해주세요 1:(더존) or 2:(현대) 중 번호 선택");
 		int newClass = Integer.parseInt(sc.nextLine());
 		oldClass.setClassNumber(newClass);
 		save(map, "test.txt");
+		System.out.println(map.get(stuID).getClassNumber()+"반으로 변경이 완료되었습니다.");
 	}
 
 	
