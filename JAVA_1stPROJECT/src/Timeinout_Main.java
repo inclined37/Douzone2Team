@@ -4,6 +4,7 @@ public class Timeinout_Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		
 		System.out.println("***********************");
 		System.out.println("1. 학생 메뉴");
 		System.out.println("2. 관리자 메뉴");

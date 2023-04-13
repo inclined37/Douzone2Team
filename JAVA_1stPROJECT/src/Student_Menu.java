@@ -1,13 +1,27 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
-
-	List<Account> accounts = new ArrayList<>();
-	Scanner sc = new Scanner(System.in);
+	String filename = "db.txt";
+	File fileS = new File(filename);
+	
+	public List<Account> accounts = new ArrayList<>();
+	//public HashMap<String,Account> map = new HashMap<>();
+	//super.login(map);
+	
 	public void signUp() {
+		HashMap smap =  super.map;
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
@@ -15,8 +29,6 @@ public class Student_Menu extends Menu {
 		int getClassNumber = 0;
 
 		Account account;
-
-		// List<Account> accounts = new ArrayList<>(); // 리스트는 메뉴에 생성할 예정
 
 		String idPattern = "^.+@[^\\\\.].*\\\\.[a-z]{2,}$"; // 이메일 형식
 		String pwdPattern = "^(?=.*[A-Za-z])(?=.*\\d)([!@#$%*?&]?)[A-Za-z\\d!@#$%*?&]{10,16}$"; // 비밀번호 형식
@@ -97,7 +109,62 @@ public class Student_Menu extends Menu {
 						break;
 					} else {
 						System.out.print("모든 정보가 정상적으로 입력되었습니다.");
-						accounts.add(new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber));
+						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
+						accounts.add(acc);
+						map.put(getAccountId, acc);
+						
+						String filename = "name.txt";
+						
+						FileOutputStream fos = null;
+						BufferedOutputStream bos = null;
+						ObjectOutputStream oos = null;
+						
+						try {
+							fos = new FileOutputStream(filename, true);
+							bos = new BufferedOutputStream(fos);
+							oos = new ObjectOutputStream(bos);
+							
+							oos.writeObject(smap);
+							
+						}catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							try {
+								oos.close();
+								bos.close();
+								fos.close();
+							} catch (Exception e2){
+								e2.printStackTrace();
+							}
+						}
+						
+						
+						FileInputStream fis = null;
+						BufferedInputStream bis = null;
+						ObjectInputStream ois = null;
+						
+						try {
+							fis = new FileInputStream(filename);
+							bis = new BufferedInputStream(fis);
+							ois = new ObjectInputStream(bis);
+						
+							smap = (HashMap)ois.readObject();
+							Set<String> set = smap.keySet();
+							
+							for(String str : set) {
+								System.out.println(smap.get(getAccountId).toString());
+							}
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						} finally {
+							try {
+								ois.close();
+								bis.close();
+								fis.close();
+							} catch (Exception e3) {
+								e3.printStackTrace();
+							}
+						}
 					}
 				}
 				run = true;
@@ -261,6 +328,7 @@ public class Student_Menu extends Menu {
 
 	@Override
 	void MenuRun() {
+		login();
 		System.out.println("1. 가입 2. 로그인 3. 출석 4. 출결확인 5. 정보 수정 6. 종료");
 		System.out.println("메뉴를 선택해주세요.");
 		Scanner sc = new Scanner(System.in);
