@@ -39,11 +39,11 @@ public abstract class Menu {
 	
 	//메뉴선택
 	abstract void MenuRun();
-	//출결현황 확인
+
+	// 출결현황 확인
 	abstract void checkAttendance();
-	
-	//개인정보 수정
+
+	// 개인정보 수정
 	abstract void editInfo();
 
-	
 }
