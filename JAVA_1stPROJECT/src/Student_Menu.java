@@ -1,16 +1,11 @@
-import java.awt.print.Book;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.security.KeyStore.Entry;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -22,6 +17,7 @@ public class Student_Menu extends Menu {
 	// 이 변수값이 true가된다.
 	public String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
+	public String loginID="";
 
 	public void signUp() {
 		load(fileName);
@@ -130,9 +126,32 @@ public class Student_Menu extends Menu {
 
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
-		String name = sc.nextLine();
-		File attend = new File("./Attendance/" + name + ".txt");
-
+		String path = "./Attendance/" + loginId + ".txt";
+		File attend = new File(path);
+		
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy.MM.dd a HH:mm:ss");
+		
+		FileReader fr = null;
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		
+		try {
+			fw = new FileWriter(attend,true);
+			bw = new BufferedWriter(fw);
+			
+			bw.write(" "+(String)now.format(date)+"\n");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				bw.close();
+				fw.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
 	// 출결확인

@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -14,6 +16,10 @@ import java.util.Set;
 public abstract class Menu {
 	int menu;
 
+	//출석기록 담는 map
+//	public HashMap<String,List> attmap = new HashMap<>();
+	//출석 기록
+//	List<String> attendancerecord = new ArrayList<>();
 	Scanner scan = new Scanner(System.in);
 	public HashMap<String, Account> map = new HashMap<>(); // 키: id / 값: 그 외 정보를 학생, 관리자 로그인 정보를 각각 사용 예정
 	String loginId = "";
