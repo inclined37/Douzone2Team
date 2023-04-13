@@ -15,29 +15,14 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
- 
-    private boolean dataChange;
+	
+	
     //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
     //이 변수값이 true가된다.
+    private boolean dataChange;
     private String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
-	//public HashMap<String,Account> map = new HashMap<>();
-	//super.login(map);
-	
-// 	public boolean loginlog() {
-// 		boolean bo = false;
-// 		String str = "minaci@naver.com";
-// 		smap=(HashMap<String,Account>)load();
-//     	if(smap==null){ //파일이 없거나 입출력 오류일때
-// 		smap = new HashMap<>();
-// 		}
-//     	smap.get(str);
-//     	if(smap!=null){
-//     		bo = !bo;
-//     	}
-//     	return bo;
-// 	}
-// 	
+ 
 	public void signUp() {
 		
 		String getAccountId = "";
