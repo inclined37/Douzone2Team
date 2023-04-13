@@ -52,7 +52,7 @@ public class Admin_Menu extends Menu {
 			System.out.print("[1] 더존  [2] 현대  [0]돌아가기  :");
 			int menu = Integer.parseInt(sc.nextLine());
 			System.out.println();
-
+				
 			switch (menu) {
 			case 1:
 				// 더존 account_dic 정보 출력
@@ -76,9 +76,18 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void editInfo() {
-
+		Scanner sc = new Scanner(System.in);
+		System.out.println("수정할 학생의 아이디를 입력해주세요");
+		String stuID = sc.nextLine();
+		
+		Account oldClass = map.get(stuID);
+		System.out.println("변경할 반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
+		int newClass = Integer.parseInt(sc.nextLine());
+		oldClass.setClassNumber(newClass);
+		save(map, "test.txt");
 	}
 
+	
 	@Override
 	void MenuRun() {
 		System.out.println("1. 출결 처리 2. 출결 확인 3. 학생 정보수정");
