@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Admin_Menu extends Menu {
-	Admin_Menu am;
+	//Admin_Menu am;
 
 	public void acceptAttendance() {
 
@@ -14,7 +14,6 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void checkAttendance() {
-
 		// 관리자는 모든 학생의 출결정보를 조회할 수 있다
 		// 1. 관리자는 학생 출결 조회 메뉴로 간다.
 		// 2. 관리자는 학생들의 출결을 조회한다.
@@ -90,6 +89,7 @@ public class Admin_Menu extends Menu {
 	
 	@Override
 	void MenuRun() {
+		load("test.txt");
 		System.out.println("1. 출결 처리 2. 출결 확인 3. 학생 정보수정");
 		System.out.println("메뉴를 선택해주세요.");
 		Scanner sc = new Scanner(System.in);

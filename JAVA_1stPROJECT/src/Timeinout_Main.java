@@ -24,5 +24,6 @@ public class Timeinout_Main {
 			am.MenuRun();
 			break;
 		}
+		sc.close();
 	}
 }

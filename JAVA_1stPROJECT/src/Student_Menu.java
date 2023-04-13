@@ -19,11 +19,11 @@ public class Student_Menu extends Menu {
 //	private boolean dataChange;
 	// 데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면
 	// 이 변수값이 true가된다.
-	private String fileName = "test.txt";
+	public String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
 
 	public void signUp() {
-
+		load(fileName);
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
@@ -117,10 +117,7 @@ public class Student_Menu extends Menu {
 						accounts.add(acc); // 회원정보 ArrayList 생성
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성
 						System.out.println("******" + map.get(getAccountId).getName());
-						save(map, fileName); // 여기까지는 타
-
-						load(fileName);
-
+						save(map, fileName); 
 					}
 				}
 				run = true;
@@ -247,6 +244,7 @@ public class Student_Menu extends Menu {
 
 	@Override
 	void MenuRun() {
+		
 		// login();
 		Scanner sc = new Scanner(System.in);
 		// load();
@@ -321,7 +319,7 @@ public class Student_Menu extends Menu {
 //		}
 //	}
 
-//	public void load() {
+//	public void load(String filename) {
 //		File file = new File(fileName);
 //		FileInputStream fis = null;
 //		ObjectInputStream oos = null;

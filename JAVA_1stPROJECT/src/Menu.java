@@ -65,7 +65,7 @@ public abstract class Menu {
 		ObjectOutputStream oos = null;
 
 		try {
-			oos = new ObjectOutputStream(new FileOutputStream(path, true));
+			oos = new ObjectOutputStream(new FileOutputStream(path, false));
 			oos.writeObject(map);
 			System.out.println("저장이 완료되었습니다.");
 		} catch (Exception e) {
@@ -88,8 +88,8 @@ public abstract class Menu {
 		try {
 			fis = new FileInputStream(file);
 			oos = new ObjectInputStream(fis);
-			Map<String, Account> mapTest = (HashMap) oos.readObject();
-			System.out.println("불러온 유저수 : " + mapTest.size());
+			map = (HashMap) oos.readObject();
+			System.out.println("불러온 유저수 : " + map.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
