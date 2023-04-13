@@ -1,11 +1,19 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 public abstract class Menu {
 	int menu;
 	
 	Scanner scan = new Scanner(System.in);
-	public HashMap<String,Account> map = new HashMap<>();
+
+	public HashMap<String,Account> map = new HashMap<>(); // 키: id / 값: 그 외 정보를 학생, 관리자 로그인 정보를 각각 사용 예정
 	
 	//로그인
 	public boolean login() {
@@ -45,5 +53,5 @@ public abstract class Menu {
 
 	// 개인정보 수정
 	abstract void editInfo();
-
+ 
 }

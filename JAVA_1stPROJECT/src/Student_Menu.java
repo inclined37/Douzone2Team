@@ -2,7 +2,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -14,12 +16,27 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 	
+	private String fileName = "D:\\Douzone\\JAVA\\First_Project\\Douzone2Team\\test.txt";//경로 지정해주세요 
+	HashMap<String,Account> smap =  super.map; // 회원정보 가져오기
+    private boolean dataChange;
+    //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
+    //이 변수값이 true가된다.
+    HashMap<String, Account> pMap = null;
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
 	//super.login(map);
 	
+	public void loginlog() {
+		
+		smap=load();
+		
+		if(smap==null){ //파일이 없거나 입출력 오류일때
+			smap = new HashMap<>();
+			}
+	}
+	
 	public void signUp() {
-		HashMap smap =  super.map;
+		
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
@@ -58,17 +75,16 @@ public class Student_Menu extends Menu {
 						flag = true;
 					} else {// false면 통과
 						boolean chkId = true;
-						getAccountId = tmp;
-						// chkId = findEmail(tmp);
-//						if (!chkId) {
-//							System.out.println("사용 가능한 ID 입니다.");
-//							getAccountId = tmp;
+						chkId = findEmail(tmp);
+						if (!chkId) {
+							System.out.println("사용 가능한 ID 입니다.");
+							getAccountId = tmp;
 							choice++;
-//							flag = false;
-//						} else {
-//							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
-//							flag = true;
-//						}
+							flag = false;
+						} else {
+							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+							flag = true;
+						}
 					}
 				}
 			case 2:
@@ -111,91 +127,13 @@ public class Student_Menu extends Menu {
 					} else {
 						System.out.print("모든 정보가 정상적으로 입력되었습니다.");
 						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
-						accounts.add(acc);
-						smap.put(getAccountId, acc);
-						
-						FileOutputStream fos = null;
-						BufferedOutputStream bos = null;
-						ObjectOutputStream oos = null;
-						
-						//학생 개인 근태 파일
-						File fileS = new File(getName+".txt");
-						
-						try {
-							fos = new FileOutputStream(fileS, true);
-							bos = new BufferedOutputStream(fos);
-							oos = new ObjectOutputStream(bos);
-							
-							oos.writeUTF(acc.toString());
-							
-						}catch (Exception e) {
-							e.printStackTrace();
-						} finally {
-							try {
-								oos.close();
-								bos.close();
-								fos.close();
-							} catch (Exception e2){
-								e2.printStackTrace();
-							}
-						}
-						
-						
-						//파일 저장하고 읽어오는 method 작성 예정(하단 무시)
-						
-						
-//						String filename = "name.txt";
-//						
-//						FileOutputStream fos = null;
-//						BufferedOutputStream bos = null;
-//						ObjectOutputStream oos = null;
-//						
-//						try {
-//							fos = new FileOutputStream(filename, true);
-//							bos = new BufferedOutputStream(fos);
-//							oos = new ObjectOutputStream(bos);
-//							
-//							oos.writeObject(smap);
-//							
-//						}catch (Exception e) {
-//							e.printStackTrace();
-//						} finally {
-//							try {
-//								oos.close();
-//								bos.close();
-//								fos.close();
-//							} catch (Exception e2){
-//								e2.printStackTrace();
-//							}
-//						}
-//						
-//						
-//						FileInputStream fis = null;
-//						BufferedInputStream bis = null;
-//						ObjectInputStream ois = null;
-//						
-//						try {
-//							fis = new FileInputStream(filename);
-//							bis = new BufferedInputStream(fis);
-//							ois = new ObjectInputStream(bis);
-//						
-//							smap2 = (HashMap)ois.readObject();
-//							Set<String> set = smap2.keySet();
-//							
-//							for(String str : set) {
-//								System.out.println(smap2.get(getAccountId).toString());
-//							}
-//						} catch (Exception e2) {
-//							e2.printStackTrace();
-//						} finally {
-//							try {
-//								ois.close();
-//								bis.close();
-//								fis.close();
-//							} catch (Exception e3) {
-//								e3.printStackTrace();
-//							}
-//						}
+						accounts.add(acc); // 회원정보 ArrayList 생성
+						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성 
+				
+						save();
+						HashMap<String,Account> m = load();
+						System.out.println(m.get(getAccountId).getName());
+ 
 					}
 				}
 				run = true;
@@ -205,15 +143,15 @@ public class Student_Menu extends Menu {
 
 	}
 
-	// 이메일주소 일치 확인
-//	public boolean findEmail(String email) {
-//		for (Account ac : this.accounts) {
-//			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-//				return true;
-//			}
-//		}
-//		return false; // 통과
-//	}
+//	 이메일주소 일치 확인
+	public boolean findEmail(String email) {
+		for (Account ac : this.accounts) {
+			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
+				return true;
+			}
+		}
+		return false; // 통과
+	}
 
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
@@ -387,5 +325,65 @@ public class Student_Menu extends Menu {
 			}
 		}
 	}
+	
+	
+	private void save() { //직렬화(저장)만 하면 된다. 
+		File file = new File(fileName);
+		ObjectOutputStream oos = null; 
+
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(file,true));
+			oos.writeObject(smap);
+			System.out.println("저장이 완료되었습니다.");
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+				if(oos != null) {
+				try{
+					oos.close();
+				}catch(IOException e) {	
+					}
+				}
+				dataChange=false; //oos가 null 경우 
+			}
+		}
+	
+	private HashMap<String,Account> load() { //읽어오기(역직렬화)
+		
+		
+		File file = new File(fileName);
+		
+		if(!file.exists()) {
+			return null;
+		}
+		ObjectInputStream ois = null;
+		try {
+			//파일 입력용 스트림 객체 생성
+			ois = new ObjectInputStream(new FileInputStream(file));
+			pMap = (HashMap<String, Account>) ois.readObject();
+			
+//			Set<String> set = smap.keySet();
+//			for(String str : set) {
+//				System.out.println(smap.get(getAccountId).toString());
+//			}
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("파일이 없네요");
+		} catch (IOException e) {
+			//handle exception
+			return null;
+		} catch (ClassNotFoundException e) {
+			//Auto-generated catch block
+			return null;
+		} finally{
+			if(ois!=null)
+				try {
+					ois.close();
+				} catch (IOException e) {
+					//handle exception
+				}
+			}
+		return pMap;
+		}
 
 }
