@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 
-	private boolean dataChange;
+//	private boolean dataChange;
 	// 데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면
 	// 이 변수값이 true가된다.
 	private String fileName = "test.txt";
@@ -117,9 +117,9 @@ public class Student_Menu extends Menu {
 						accounts.add(acc); // 회원정보 ArrayList 생성
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성
 						System.out.println("******" + map.get(getAccountId).getName());
-						save(map); // 여기까지는 타
+						save(map, fileName); // 여기까지는 타
 
-						load();
+						load(fileName);
 
 					}
 				}
@@ -299,40 +299,40 @@ public class Student_Menu extends Menu {
 		}
 	}
 
-	private void save(HashMap<String, Account> map) { // 직렬화(저장)만 하면 된다.
+//	private void save(HashMap<String, Account> map) { // 직렬화(저장)만 하면 된다.
+//
+//		File file = new File(fileName);
+//		ObjectOutputStream oos = null;
+//
+//		try {
+//			oos = new ObjectOutputStream(new FileOutputStream(fileName, true));
+//			oos.writeObject(super.map);
+//			System.out.println("저장이 완료되었습니다.");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (oos != null) {
+//				try {
+//					oos.close();
+//				} catch (IOException e) {
+//				}
+//			}
+////			dataChange = false; // oos가 null 경우
+//		}
+//	}
 
-		File file = new File(fileName);
-		ObjectOutputStream oos = null;
-
-		try {
-			oos = new ObjectOutputStream(new FileOutputStream(fileName, true));
-			oos.writeObject(super.map);
-			System.out.println("저장이 완료되었습니다.");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (oos != null) {
-				try {
-					oos.close();
-				} catch (IOException e) {
-				}
-			}
-			dataChange = false; // oos가 null 경우
-		}
-	}
-
-	public void load() {
-		File file = new File(fileName);
-		FileInputStream fis = null;
-		ObjectInputStream oos = null;
-		try {
-			fis = new FileInputStream(file);
-			oos = new ObjectInputStream(fis);
-			Map<String, Account> mapTest = (HashMap) oos.readObject();
-			System.out.println("불러온 유저수 : " + mapTest.size());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public void load() {
+//		File file = new File(fileName);
+//		FileInputStream fis = null;
+//		ObjectInputStream oos = null;
+//		try {
+//			fis = new FileInputStream(file);
+//			oos = new ObjectInputStream(fis);
+//			Map<String, Account> mapTest = (HashMap) oos.readObject();
+//			System.out.println("불러온 유저수 : " + mapTest.size());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 }
