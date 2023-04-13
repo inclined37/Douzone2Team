@@ -200,7 +200,8 @@ public class Student_Menu extends Menu {
 						System.out.println("휴대폰 번호 형식에 맞지 않습니다.");
 					} else {
 						//getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber
-						map.replace(loginId, new Account(map.get(loginId).getName(), loginId, map.get(loginId).getPassWord(), phoneNumber, map.get(loginId).getClassNumber()));
+//						map.set(loginId, new Account(map.get(loginId).getName(), loginId, map.get(loginId).getPassWord(), phoneNumber, map.get(loginId).getClassNumber()));
+						map.get(loginId).setPhoneNumber(phoneNumber);
 						save(map, fileName);
 					}
 					break;
@@ -223,7 +224,7 @@ public class Student_Menu extends Menu {
 							System.out.println("비밀번호가 일치하지 않습니다.");
 						} else {
 							System.out.println("비밀번호가 변경되었습니다.");
-							map.replace(loginId, new Account(map.get(loginId).getName(), loginId, newPassword, map.get(loginId).getPhoneNumber(), map.get(loginId).getClassNumber()));
+							map.get(loginId).setPassWord(password);
 							save(map, fileName);
 						}
 					}
@@ -288,6 +289,7 @@ public class Student_Menu extends Menu {
 				editInfo();
 				break;
 			case 0:
+				run1 = false;
 				run2 = true;
 			}
 		}
