@@ -14,10 +14,12 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 	
-	List<Account> accounts = new ArrayList<>();
-	HashMap<String,Account> map = new HashMap<>();
+	public List<Account> accounts = new ArrayList<>();
+	//public HashMap<String,Account> map = new HashMap<>();
+	//super.login(map);
 	
 	public void signUp() {
+		HashMap smap =  super.map;
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
@@ -110,9 +112,7 @@ public class Student_Menu extends Menu {
 						System.out.print("모든 정보가 정상적으로 입력되었습니다.");
 						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
 						accounts.add(acc);
-						map.put(getAccountId, acc);
-						
-						String filename = "name.txt";
+						smap.put(getAccountId, acc);
 						
 						FileOutputStream fos = null;
 						BufferedOutputStream bos = null;
@@ -141,6 +141,61 @@ public class Student_Menu extends Menu {
 						}
 						
 						
+						//파일 저장하고 읽어오는 method 작성 예정(하단 무시)
+						
+						
+//						String filename = "name.txt";
+//						
+//						FileOutputStream fos = null;
+//						BufferedOutputStream bos = null;
+//						ObjectOutputStream oos = null;
+//						
+//						try {
+//							fos = new FileOutputStream(filename, true);
+//							bos = new BufferedOutputStream(fos);
+//							oos = new ObjectOutputStream(bos);
+//							
+//							oos.writeObject(smap);
+//							
+//						}catch (Exception e) {
+//							e.printStackTrace();
+//						} finally {
+//							try {
+//								oos.close();
+//								bos.close();
+//								fos.close();
+//							} catch (Exception e2){
+//								e2.printStackTrace();
+//							}
+//						}
+//						
+//						
+//						FileInputStream fis = null;
+//						BufferedInputStream bis = null;
+//						ObjectInputStream ois = null;
+//						
+//						try {
+//							fis = new FileInputStream(filename);
+//							bis = new BufferedInputStream(fis);
+//							ois = new ObjectInputStream(bis);
+//						
+//							smap2 = (HashMap)ois.readObject();
+//							Set<String> set = smap2.keySet();
+//							
+//							for(String str : set) {
+//								System.out.println(smap2.get(getAccountId).toString());
+//							}
+//						} catch (Exception e2) {
+//							e2.printStackTrace();
+//						} finally {
+//							try {
+//								ois.close();
+//								bis.close();
+//								fis.close();
+//							} catch (Exception e3) {
+//								e3.printStackTrace();
+//							}
+//						}
 					}
 				}
 				run = true;
@@ -278,36 +333,55 @@ public class Student_Menu extends Menu {
 	
 	@Override
 	void MenuRun() {
-		System.out.println("1. 가입 2. 로그인 3. 출석 4. 출결확인 5. 정보 수정 6. 종료");
-		System.out.println("메뉴를 선택해주세요.");
+		//login();
 		Scanner sc = new Scanner(System.in);
-		int select = Integer.parseInt(sc.nextLine());
 
-		switch (select) {
-		case 1:
-			signUp();
-			MenuRun();
-			break;
-		case 2:
-			login();
-			MenuRun();
-			break;
-		case 3:
-			attendance();
-			MenuRun();
-			break;
-		case 4:
-			checkAttendance();
-			MenuRun();
-			break;
-		case 5:
-			editInfo();
-			MenuRun();
-			break;
-		case 6:
+		//  가입/로그인
+		boolean run1 = false;
+		while(!run1) {
+			System.out.println("********************************************");
+			System.out.println("************ Douzone In and Out ************");
+			System.out.println("********************************************");
+			System.out.print("[1]로그인  [2]회원가입  [0]종료  : ");
+			int select = Integer.parseInt(sc.nextLine());
+			boolean check;
 			
-		case 7:
-			System.exit(0);
+			switch(select) {
+			case 1:
+				check = login();
+				//로그인 성공 시 while 탈출
+				if(check) {
+					run1 = true;
+				}
+				break;
+			case 2:
+				signUp();
+				break;
+			case 0:
+				System.exit(0);
+			}
+		}
+		//로그인 성공 시
+		boolean run2 = false;
+		while(!run2) {
+			System.out.println("[1]출석  [2]출결확인  [3]개인정보 수정  [0]로그아웃");
+			System.out.println("메뉴를 선택해주세요.");
+			
+			int select = Integer.parseInt(sc.nextLine());
+	
+			switch (select) {
+			case 1:
+				attendance();
+				break;
+			case 2:
+				checkAttendance();
+				break;
+			case 3:
+				editInfo();
+				break;
+			case 0:
+				run2 = true;
+			}
 		}
 	}
 

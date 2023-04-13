@@ -24,11 +24,33 @@ public class Account implements Serializable {
 		
 	}
  
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public int getClassNumber() {
+		return classNumber;
+	}
+
 	@Override
 	public String toString() {
 		
 		return "Account [이름=" + name + ", accountId=" + accountId + ", phoneNumber=" + phoneNumber + ", passWord="
 				+ passWord + ", classNumber=" + classNumber + "]";
 	}
+	
+	
  
 }
