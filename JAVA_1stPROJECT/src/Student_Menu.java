@@ -21,7 +21,7 @@ public class Student_Menu extends Menu {
     private boolean dataChange;
     //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
     //이 변수값이 true가된다.
-    HashMap<String, Account> pMap = load();
+    HashMap<String, Account> oMap = load();
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
 	//super.login(map);
@@ -32,7 +32,8 @@ public class Student_Menu extends Menu {
 		
 		if(smap==null){ //파일이 없거나 입출력 오류일때
 			smap = new HashMap<>();
-			}
+		}
+		
 	}
 	
 	public void signUp() {
@@ -159,10 +160,7 @@ public class Student_Menu extends Menu {
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
 		String name = sc.nextLine();
-		File attend = new File("./Attendance/"+name+".txt");
-		
-		
-		
+		File attend = new File("./Attendance/"+name+".txt"); 
 	}
 
 	// 출결확인
@@ -277,8 +275,9 @@ public class Student_Menu extends Menu {
 	
 	@Override
 	void MenuRun() {
-		//login();
+		
 		Scanner sc = new Scanner(System.in);
+		
 
 		//  가입/로그인
 		boolean run1 = false;
@@ -353,12 +352,12 @@ public class Student_Menu extends Menu {
 	
 	private HashMap<String,Account> load() { //읽어오기(역직렬화)
 		
-		
 		File file = new File(fileName);
-		
 		if(!file.exists()) {
 			return null;
 		}
+		
+		HashMap<String, Account> pMap = null;
 		ObjectInputStream ois = null;
 		try {
 			//파일 입력용 스트림 객체 생성
