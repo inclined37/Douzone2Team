@@ -134,7 +134,6 @@ public class Student_Menu extends Menu {
 						
 						System.out.println(m.get(getAccountId).getName());
 						
-						//역직렬화 
 
 					}
 				}
@@ -267,35 +266,54 @@ public class Student_Menu extends Menu {
 
 	@Override
 	void MenuRun() {
-		login();
-		System.out.println("1. 가입 2. 로그인 3. 출석 4. 출결확인 5. 정보 수정 6. 종료");
-		System.out.println("메뉴를 선택해주세요.");
+		//login();
 		Scanner sc = new Scanner(System.in);
-		int select = Integer.parseInt(sc.nextLine());
-
-		switch (select) {
-		case 1:
-			signUp();
-			MenuRun();
-			break;
-		case 2:
-			login();
-			MenuRun();
-			break;
-		case 3:
-			attendance();
-			MenuRun();
-			break;
-		case 4:
-			checkAttendance();
-			MenuRun();
-			break;
-		case 5:
-			editInfo();
-			MenuRun();
-			break;
-		case 6:
-			System.exit(0);
+		//  가입/로그인
+		boolean run1 = false;
+		while(!run1) {
+			System.out.println("********************************************");
+			System.out.println("************ Douzone In and Out ************");
+			System.out.println("********************************************");
+			System.out.print("[1]로그인  [2]회원가입  [0]종료  : ");
+			int select = Integer.parseInt(sc.nextLine());
+			boolean check;
+			
+			switch(select) {
+			case 1:
+				check = login();
+				//로그인 성공 시 while 탈출
+				if(check) {
+					run1 = true;
+				}
+				break;
+			case 2:
+				signUp();
+				break;
+			case 0:
+				System.exit(0);
+			}
+		}
+		//로그인 성공 시
+		boolean run2 = false;
+		while(!run2) {
+			System.out.println("[1]출석  [2]출결확인  [3]개인정보 수정  [0]로그아웃");
+			System.out.println("메뉴를 선택해주세요.");
+			
+			int select = Integer.parseInt(sc.nextLine());
+	
+			switch (select) {
+			case 1:
+				attendance();
+				break;
+			case 2:
+				checkAttendance();
+				break;
+			case 3:
+				editInfo();
+				break;
+			case 0:
+				run2 = true;
+			}
 		}
 	}
 	

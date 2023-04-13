@@ -12,15 +12,11 @@ public abstract class Menu {
 	int menu;
 	
 	Scanner scan = new Scanner(System.in);
-	
-	//Student_Menu smenu = new Student_Menu();
-	//학생 map
-	//public HashMap<String,Account> map = smenu.map;
-	
+
 	public HashMap<String,Account> map = new HashMap<>(); // 키: id / 값: 그 외 정보를 학생, 관리자 로그인 정보를 각각 사용 예정
 	
 	//로그인
-	public void login() {
+	public boolean login() {
 		System.out.println("로그인 합니다.");
 
 		String accountId;
@@ -36,6 +32,9 @@ public abstract class Menu {
 
 			if(map.get(accountId).getPassWord() == accountPw) {
 				//showMenu
+				System.out.println("로그인에 성공하였습니다.");
+				System.out.println(map.get(accountId).getName()+" 님 안녕하세요 ^^");
+				return true;
 			} else {
 				System.out.println("입력한 accountPw가 일치하지 않습니다.");
 			}
@@ -43,6 +42,7 @@ public abstract class Menu {
 		else {
 			System.out.println("입력한 accountId가 존재하지 않습니다.");
 		}
+		return false;
 	}
 	
 	//메뉴선택
