@@ -84,6 +84,7 @@ public class Admin_Menu extends Menu {
 		System.out.println("변경할 반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
 		int newClass = Integer.parseInt(sc.nextLine());
 		oldClass.setClassNumber(newClass);
+		save(map, "test.txt");
 	}
 
 	

@@ -1,10 +1,13 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -44,6 +47,8 @@ public abstract class Menu {
 		return false;
 	}
 
+	
+	
 	// 메뉴선택
 	abstract void MenuRun();
 
@@ -53,4 +58,40 @@ public abstract class Menu {
 	// 개인정보 수정
 	abstract void editInfo();
 
+	
+	public void save(HashMap<String, Account> map, String path) { // 직렬화(저장)만 하면 된다.
+
+		File file = new File(path);
+		ObjectOutputStream oos = null;
+
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(path, true));
+			oos.writeObject(map);
+			System.out.println("저장이 완료되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (oos != null) {
+				try {
+					oos.close();
+				} catch (IOException e) {
+				}
+			}
+//			dataChange = false; // oos가 null 경우
+		}
+	}
+	
+	public void load(String path) {
+		File file = new File(path);
+		FileInputStream fis = null;
+		ObjectInputStream oos = null;
+		try {
+			fis = new FileInputStream(file);
+			oos = new ObjectInputStream(fis);
+			Map<String, Account> mapTest = (HashMap) oos.readObject();
+			System.out.println("불러온 유저수 : " + mapTest.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
