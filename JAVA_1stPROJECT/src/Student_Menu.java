@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 
+
 //	private boolean dataChange;
 	// 데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면
 	// 이 변수값이 true가된다.
@@ -23,7 +24,7 @@ public class Student_Menu extends Menu {
 	public List<Account> accounts = new ArrayList<>();
 
 	public void signUp() {
-
+		load(fileName);
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
@@ -50,7 +51,6 @@ public class Student_Menu extends Menu {
 				choice++;
 			case 1:
 				boolean flag = true;
-
 				while (flag) { // true이면 계속 돌고 false은 통과!!!!!!!
 					System.out.print("회원가입 하실 이메일 주소를 입력해주세요 (example@gmail.com) :");
 					flag = false;
@@ -61,15 +61,15 @@ public class Student_Menu extends Menu {
 						System.out.print("이메일 형식이 잘못되었습니다.다시 입력해주세요");
 						flag = true;
 					} else {// false면 통과
-						boolean chkId = true;
-						chkId = findEmail(tmp);
-						if (!chkId) {
+						System.out.println("##맵##" + map.containsKey(tmp));
+						if(!map.containsKey(tmp)) { //다르면 사용 가능하다.
+							
 							System.out.println("사용 가능한 ID 입니다.");
 							getAccountId = tmp;
 							choice++;
 							flag = false;
-						} else {
-							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+						}else {
+							System.out.println("ID가 존재합니다. 다른 ID로 입력해주세요.");
 							flag = true;
 						}
 					}
@@ -117,9 +117,11 @@ public class Student_Menu extends Menu {
 						accounts.add(acc); // 회원정보 ArrayList 생성
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성
 						System.out.println("******" + map.get(getAccountId).getName());
+
+
 						save(map, fileName); // 여기까지는 타
 
-						load(fileName);
+						
 
 					}
 				}
@@ -128,16 +130,6 @@ public class Student_Menu extends Menu {
 			}
 		}
 
-	}
-
-//	 이메일주소 일치 확인
-	public boolean findEmail(String email) {
-		for (Account ac : this.accounts) {
-			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-				return true;
-			}
-		}
-		return false; // 통과
 	}
 
 	public void attendance() {
@@ -248,10 +240,9 @@ public class Student_Menu extends Menu {
 
 	@Override
 	void MenuRun() {
-		// login();
+	
 		Scanner sc = new Scanner(System.in);
-		// load();
-		// 가입/로그인
+ 
 		boolean run1 = false;
 		while (!run1) {
 			System.out.println("********************************************");
@@ -300,40 +291,5 @@ public class Student_Menu extends Menu {
 		}
 	}
 
-//	private void save(HashMap<String, Account> map) { // 직렬화(저장)만 하면 된다.
-//
-//		File file = new File(fileName);
-//		ObjectOutputStream oos = null;
-//
-//		try {
-//			oos = new ObjectOutputStream(new FileOutputStream(fileName, true));
-//			oos.writeObject(super.map);
-//			System.out.println("저장이 완료되었습니다.");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (oos != null) {
-//				try {
-//					oos.close();
-//				} catch (IOException e) {
-//				}
-//			}
-////			dataChange = false; // oos가 null 경우
-//		}
-//	}
-
-//	public void load() {
-//		File file = new File(fileName);
-//		FileInputStream fis = null;
-//		ObjectInputStream oos = null;
-//		try {
-//			fis = new FileInputStream(file);
-//			oos = new ObjectInputStream(fis);
-//			Map<String, Account> mapTest = (HashMap) oos.readObject();
-//			System.out.println("불러온 유저수 : " + mapTest.size());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
+ 
 }

@@ -88,8 +88,8 @@ public abstract class Menu {
 		try {
 			fis = new FileInputStream(file);
 			oos = new ObjectInputStream(fis);
-			Map<String, Account> mapTest = (HashMap) oos.readObject();
-			System.out.println("불러온 유저수 : " + mapTest.size());
+			map = (HashMap) oos.readObject();
+			System.out.println("불러온 유저수 : " + map.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
