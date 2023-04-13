@@ -30,7 +30,7 @@ public abstract class Menu {
 			System.out.print("accountPw 입력: ");
 			accountPw = scan.nextLine();
 
-			if(map.get(accountId).getPassWord() == accountPw) {
+			if(map.get(accountId).getPassWord().equals(accountPw)) {
 				//showMenu
 				System.out.println("로그인에 성공하였습니다.");
 				System.out.println(map.get(accountId).getName()+" 님 안녕하세요 ^^");

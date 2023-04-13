@@ -16,12 +16,12 @@ import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
 	
-	private String fileName = "D:\\Douzone\\JAVA\\First_Project\\Douzone2Team\\test.txt";//경로 지정해주세요 
+	private String fileName = "D:\\Douzone2TeamProject\\Douzone2Team\\JAVA_1stPROJECT\\test.txt";//경로 지정해주세요 
 	HashMap<String,Account> smap =  super.map; // 회원정보 가져오기
     private boolean dataChange;
     //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
     //이 변수값이 true가된다.
-    HashMap<String, Account> pMap = null;
+    HashMap<String, Account> pMap = load();
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
 	//super.login(map);
@@ -145,10 +145,13 @@ public class Student_Menu extends Menu {
 
 //	 이메일주소 일치 확인
 	public boolean findEmail(String email) {
-		for (Account ac : this.accounts) {
-			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-				return true;
-			}
+//		for (Account ac : this.accounts) {
+//			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
+//				return true;
+//			}
+//		}
+		if(map.containsKey(email)) {
+			return true;
 		}
 		return false; // 통과
 	}
