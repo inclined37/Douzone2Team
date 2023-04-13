@@ -1,5 +1,4 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.awt.print.Book;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,34 +6,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
-	
-	private String fileName = "D:\\Douzone\\JAVA\\First_Project\\Douzone2Team\\test.txt";//경로 지정해주세요 
-	HashMap<String,Account> smap =  super.map; // 회원정보 가져오기
+ 
     private boolean dataChange;
     //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
     //이 변수값이 true가된다.
-    HashMap<String, Account> pMap = null;
+    private String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
 	//super.login(map);
 	
-	public void loginlog() {
-		
-		smap=load();
-		
-		if(smap==null){ //파일이 없거나 입출력 오류일때
-			smap = new HashMap<>();
-			}
-	}
-	
+// 	public boolean loginlog() {
+// 		boolean bo = false;
+// 		String str = "minaci@naver.com";
+// 		smap=(HashMap<String,Account>)load();
+//     	if(smap==null){ //파일이 없거나 입출력 오류일때
+// 		smap = new HashMap<>();
+// 		}
+//     	smap.get(str);
+//     	if(smap!=null){
+//     		bo = !bo;
+//     	}
+//     	return bo;
+// 	}
+// 	
 	public void signUp() {
 		
 		String getAccountId = "";
@@ -129,10 +132,19 @@ public class Student_Menu extends Menu {
 						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
 						accounts.add(acc); // 회원정보 ArrayList 생성
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성 
-				
-						save();
-						HashMap<String,Account> m = load();
-						System.out.println(m.get(getAccountId).getName());
+						System.out.println("******" + map.get(getAccountId).getName());
+						save(map); //여기까지는 타
+						
+						load();
+						
+						//HashMap<String, Account> ac = (HashMap<String, Account>)load();
+						//System.out.println(ac);
+						//System.out.println("test" + ac.get(getName).getName());
+						
+						
+						
+						//HashMap<String,Account> m = load();
+						//System.out.println(m.get(getAccountId).getName());
  
 					}
 				}
@@ -276,7 +288,7 @@ public class Student_Menu extends Menu {
 	void MenuRun() {
 		//login();
 		Scanner sc = new Scanner(System.in);
-
+		//load();
 		//  가입/로그인
 		boolean run1 = false;
 		while(!run1) {
@@ -327,13 +339,15 @@ public class Student_Menu extends Menu {
 	}
 	
 	
-	private void save() { //직렬화(저장)만 하면 된다. 
+	private void save(HashMap<String,Account> map) { //직렬화(저장)만 하면 된다. 
+		
+		
 		File file = new File(fileName);
 		ObjectOutputStream oos = null; 
 
 		try {
-			oos = new ObjectOutputStream(new FileOutputStream(file,true));
-			oos.writeObject(smap);
+			oos = new ObjectOutputStream(new FileOutputStream(fileName,true));
+			oos.writeObject(super.map);
 			System.out.println("저장이 완료되었습니다.");
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -347,43 +361,78 @@ public class Student_Menu extends Menu {
 				dataChange=false; //oos가 null 경우 
 			}
 		}
-	
-	private HashMap<String,Account> load() { //읽어오기(역직렬화)
-		
-		
+	public void load() {
 		File file = new File(fileName);
-		
-		if(!file.exists()) {
-			return null;
-		}
-		ObjectInputStream ois = null;
+        FileInputStream fis = null;
+        ObjectInputStream oos = null;
 		try {
-			//파일 입력용 스트림 객체 생성
-			ois = new ObjectInputStream(new FileInputStream(file));
-			pMap = (HashMap<String, Account>) ois.readObject();
-			
-//			Set<String> set = smap.keySet();
-//			for(String str : set) {
-//				System.out.println(smap.get(getAccountId).toString());
+			fis = new FileInputStream(file);
+			oos = new ObjectInputStream(fis);
+			Map<String, Account> mapTest= (HashMap)oos.readObject();
+			System.out.println("불러온 유저수 : "+mapTest.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}  
+	}
+//	public Object load() { //읽어오기(역직렬화)
+//		
+//		File file = new File(fileName);
+//		Object oj =null;
+//		
+//		if(!file.exists()) {
+//			System.out.println("파일이 없어요");
+//		}
+//		ObjectInputStream ois = null;
+//		try {
+//			//파일 입력용 스트림 객체 생성
+//			ois = new ObjectInputStream(new FileInputStream(file));
+////			HashMap<String, Account> pMap = (HashMap<String, Account>) ois.readObject();
+////			Set set = pMap.entrySet();
+//			oj = ois.readObject();
+////			while ((oj = ois.readObject()) != null) {
+////				//
+////			}
+//			
+////			while ((oj = ois.readObject()) != null) {
+////				for (Map.Entry<String, Account> entry : ((HashMap<String, Account>) oj).entrySet())
+////				{
+////				    System.out.println (entry.getValue());
+////				    System.out.println("여기 탔어????????????????????");
+////				}
+////			}
+//			 
+//		
+////			Set set = pMap.entrySet(); // Map(key,value) 가공 >> key +"="+value //쌍으로 중복 없애줌 쌍으로 볼 수 있고  
+////		 	Iterator it = set.iterator();
+////		 	while(it.hasNext()) {
+////		 		System.out.println(it.next()); 
+////		 	}
+//		 	
+//			
+////		 	for(Map.Entry m : smap.entrySet()) { //키와 값을 각각 볼 수있다. 다시한번 보기 
+////		 		 System.out.println(m.getKey() + " / " + ((Student)m.getValue()).name);
+////		 	 }
+//
+//		}
+//		catch(FileNotFoundException e) {
+//			System.out.println("파일이 없네요");
+//		} catch (IOException e) {
+//			//handle exception
+//			System.out.println("에러네요");
+//			//return null;
+//		} catch (ClassNotFoundException e) {
+//			//Auto-generated catch block
+//			System.out.println("에러네요");
+//			//return null;
+//		} finally{
+//			if(ois!=null)
+//				try {
+//					ois.close();
+//				} catch (IOException e) {
+//					//handle exception
+//				}
 //			}
-		}
-		catch(FileNotFoundException e) {
-			System.out.println("파일이 없네요");
-		} catch (IOException e) {
-			//handle exception
-			return null;
-		} catch (ClassNotFoundException e) {
-			//Auto-generated catch block
-			return null;
-		} finally{
-			if(ois!=null)
-				try {
-					ois.close();
-				} catch (IOException e) {
-					//handle exception
-				}
-			}
-		return pMap;
-		}
+//		return oj;
+//		}
 
 }
