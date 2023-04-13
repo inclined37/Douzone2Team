@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Admin_Menu extends Menu {
-	Admin_Menu am;
+	//Admin_Menu am;
 
 	public void acceptAttendance() {
 
@@ -14,6 +14,7 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void checkAttendance() {
+
 		load("test.txt");
 		// 관리자는 모든 학생의 출결정보를 조회할 수 있다
 		// 1. 관리자는 학생 출결 조회 메뉴로 간다.
@@ -81,15 +82,17 @@ public class Admin_Menu extends Menu {
 		String stuID = sc.nextLine();
 		
 		Account oldClass = map.get(stuID);
-		System.out.println("변경할 반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
+		System.out.println("변경할 반번호를 입력해주세요 1:(더존) or 2:(현대) 중 번호 선택");
 		int newClass = Integer.parseInt(sc.nextLine());
 		oldClass.setClassNumber(newClass);
 		save(map, "test.txt");
+		System.out.println(map.get(stuID).getClassNumber()+"반으로 변경이 완료되었습니다.");
 	}
 
 	
 	@Override
 	void MenuRun() {
+		load("test.txt");
 		System.out.println("1. 출결 처리 2. 출결 확인 3. 학생 정보수정");
 		System.out.println("메뉴를 선택해주세요.");
 		Scanner sc = new Scanner(System.in);

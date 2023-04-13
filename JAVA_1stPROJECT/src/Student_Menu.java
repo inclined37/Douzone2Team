@@ -1,16 +1,11 @@
-import java.awt.print.Book;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.security.KeyStore.Entry;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -20,8 +15,9 @@ public class Student_Menu extends Menu {
 //	private boolean dataChange;
 	// 데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면
 	// 이 변수값이 true가된다.
-	private String fileName = "test.txt";
+	public String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
+	public String loginID="";
 
 	public void signUp() {
 		load(fileName);
@@ -117,11 +113,7 @@ public class Student_Menu extends Menu {
 						accounts.add(acc); // 회원정보 ArrayList 생성
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성
 						System.out.println("******" + map.get(getAccountId).getName());
-
-
-						save(map, fileName); // 여기까지는 타
-
-						
+						save(map, fileName); 
 
 					}
 				}
@@ -134,9 +126,32 @@ public class Student_Menu extends Menu {
 
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
-		String name = sc.nextLine();
-		File attend = new File("./Attendance/" + name + ".txt");
-
+		String path = "./Attendance/" + loginId + ".txt";
+		File attend = new File(path);
+		
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy.MM.dd a HH:mm:ss");
+		
+		FileReader fr = null;
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		
+		try {
+			fw = new FileWriter(attend,true);
+			bw = new BufferedWriter(fw);
+			
+			bw.write(" "+(String)now.format(date)+"\n");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				bw.close();
+				fw.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
 	// 출결확인
@@ -240,6 +255,8 @@ public class Student_Menu extends Menu {
 
 	@Override
 	void MenuRun() {
+		
+		// login();
 	
 		Scanner sc = new Scanner(System.in);
  
@@ -290,6 +307,39 @@ public class Student_Menu extends Menu {
 			}
 		}
 	}
-
- 
 }
+//	private void save(HashMap<String, Account> map) { // 직렬화(저장)만 하면 된다.
+//
+//		File file = new File(fileName);
+//		ObjectOutputStream oos = null;
+//
+//		try {
+//			oos = new ObjectOutputStream(new FileOutputStream(fileName, true));
+//			oos.writeObject(super.map);
+//			System.out.println("저장이 완료되었습니다.");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			if (oos != null) {
+//				try {
+//					oos.close();
+//				} catch (IOException e) {
+//				}
+//			}
+////			dataChange = false; // oos가 null 경우
+//		}
+//	}
+
+//	public void load(String filename) {
+//		File file = new File(fileName);
+//		FileInputStream fis = null;
+//		ObjectInputStream oos = null;
+//		try {
+//			fis = new FileInputStream(file);
+//			oos = new ObjectInputStream(fis);
+//			Map<String, Account> mapTest = (HashMap) oos.readObject();
+//			System.out.println("불러온 유저수 : " + mapTest.size());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
