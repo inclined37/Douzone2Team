@@ -189,7 +189,7 @@ public class Student_Menu extends Menu {
 				password = sc.nextLine();
 				System.out.println();
 
-				if (!password.contains(password)) {
+				if (!map.get(loginId).getPassWord().equals(password)) {
 					System.out.println("비밀번호가 일치하지 않습니다.");
 					password = "";
 				}
@@ -207,7 +207,8 @@ public class Student_Menu extends Menu {
 					if (!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber)) {
 						System.out.println("휴대폰 번호 형식에 맞지 않습니다.");
 					} else {
-						// 휴대폰 번호 변경~~
+						//getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber
+						map.replace(loginId, new Account(map.get(loginId).getName(), loginId, map.get(loginId).getPassWord(), phoneNumber, map.get(loginId).getClassNumber()));
 					}
 					break;
 
@@ -229,7 +230,7 @@ public class Student_Menu extends Menu {
 							System.out.println("비밀번호가 일치하지 않습니다.");
 						} else {
 							System.out.println("비밀번호가 변경되었습니다.");
-							// 비밀번호 변경~~
+							map.replace(loginId, new Account(map.get(loginId).getName(), loginId, newPassword, map.get(loginId).getPhoneNumber(), map.get(loginId).getClassNumber()));
 						}
 					}
 					break;
