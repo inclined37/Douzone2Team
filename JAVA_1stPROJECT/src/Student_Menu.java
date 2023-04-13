@@ -17,9 +17,11 @@ public class Student_Menu extends Menu {
 	File fileS = new File(filename);
 	
 	public List<Account> accounts = new ArrayList<>();
-	public HashMap<String,Account> map = new HashMap<>();
+	//public HashMap<String,Account> map = new HashMap<>();
+	//super.login(map);
 	
 	public void signUp() {
+		HashMap smap =  super.map;
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
@@ -122,7 +124,7 @@ public class Student_Menu extends Menu {
 							bos = new BufferedOutputStream(fos);
 							oos = new ObjectOutputStream(bos);
 							
-							oos.writeObject(map);
+							oos.writeObject(smap);
 							
 						}catch (Exception e) {
 							e.printStackTrace();
@@ -146,11 +148,11 @@ public class Student_Menu extends Menu {
 							bis = new BufferedInputStream(fis);
 							ois = new ObjectInputStream(bis);
 						
-							map = (HashMap)ois.readObject();
-							Set<String> set = map.keySet();
+							smap = (HashMap)ois.readObject();
+							Set<String> set = smap.keySet();
 							
 							for(String str : set) {
-								System.out.println(map.get(getAccountId).toString());
+								System.out.println(smap.get(getAccountId).toString());
 							}
 						} catch (Exception e2) {
 							e2.printStackTrace();
@@ -294,6 +296,7 @@ public class Student_Menu extends Menu {
 
 	@Override
 	void MenuRun() {
+		login();
 		System.out.println("1. 가입 2. 로그인 3. 출석 4. 출결확인 5. 정보 수정 6. 종료");
 		System.out.println("메뉴를 선택해주세요.");
 		Scanner sc = new Scanner(System.in);
