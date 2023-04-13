@@ -14,7 +14,7 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void checkAttendance() {
-		
+
 		// 관리자는 모든 학생의 출결정보를 조회할 수 있다
 		// 1. 관리자는 학생 출결 조회 메뉴로 간다.
 		// 2. 관리자는 학생들의 출결을 조회한다.
@@ -23,7 +23,7 @@ public class Admin_Menu extends Menu {
 		Scanner sc = new Scanner(System.in);
 		boolean run = false;
 
-		// 출석파일 정보 얻기 
+		// 출석파일 정보 얻기
 //		File file = new File("출석파일.txt");
 //		
 //		try {
@@ -52,7 +52,7 @@ public class Admin_Menu extends Menu {
 			System.out.print("[1] 더존  [2] 현대  [0]돌아가기  :");
 			int menu = Integer.parseInt(sc.nextLine());
 			System.out.println();
-
+				
 			switch (menu) {
 			case 1:
 				// 더존 account_dic 정보 출력
@@ -76,9 +76,18 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void editInfo() {
-
+		Scanner sc = new Scanner(System.in);
+		System.out.println("수정할 학생의 아이디를 입력해주세요");
+		String stuID = sc.nextLine();
+		
+		Account oldClass = map.get(stuID);
+		System.out.println("변경할 반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
+		int newClass = Integer.parseInt(sc.nextLine());
+		oldClass.setClassNumber(newClass);
+		save(map, "test.txt");
 	}
 
+	
 	@Override
 	void MenuRun() {
 		System.out.println("1. 출결 처리 2. 출결 확인 3. 학생 정보수정");
