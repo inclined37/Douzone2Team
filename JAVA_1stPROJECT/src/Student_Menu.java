@@ -13,8 +13,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
-	String filename = "db.txt";
-	File fileS = new File(filename);
 	
 	List<Account> accounts = new ArrayList<>();
 	HashMap<String,Account> map = new HashMap<>();
@@ -58,6 +56,7 @@ public class Student_Menu extends Menu {
 						flag = true;
 					} else {// false면 통과
 						boolean chkId = true;
+						getAccountId = tmp;
 						// chkId = findEmail(tmp);
 //						if (!chkId) {
 //							System.out.println("사용 가능한 ID 입니다.");
@@ -93,6 +92,7 @@ public class Student_Menu extends Menu {
 					break;
 				} else {
 					System.out.print("정상적으로 입력하였습니다.");
+					getPhoneNumber=tmp;
 					choice++;
 					break;
 				}
@@ -118,6 +118,9 @@ public class Student_Menu extends Menu {
 						BufferedOutputStream bos = null;
 						ObjectOutputStream oos = null;
 						
+						//학생 개인 근태 파일
+						File fileS = new File(getName+".txt");
+						
 						try {
 							fos = new FileOutputStream(fileS, true);
 							bos = new BufferedOutputStream(fos);
@@ -138,29 +141,6 @@ public class Student_Menu extends Menu {
 						}
 						
 						
-//						FileInputStream fis = null;
-//						BufferedInputStream bis = null;
-//						ObjectInputStream ois = null;
-//						
-//						try {
-//							fis = new FileInputStream(filename);
-//							bis = new BufferedInputStream(fis);
-//							ois = new ObjectInputStream(bis);
-//							Object user = null;
-//							while((user = ois.readObject()) != null) {
-//								System.out.println(((Account)user).toString());
-//							}
-//						} catch (Exception e2) {
-//							e2.printStackTrace();
-//						} finally {
-//							try {
-//								ois.close();
-//								bis.close();
-//								fis.close();
-//							} catch (Exception e3) {
-//								e3.printStackTrace();
-//							}
-//						}
 					}
 				}
 				run = true;
@@ -182,7 +162,12 @@ public class Student_Menu extends Menu {
 
 
 	public void attendance() {
-
+		Scanner sc = new Scanner(System.in);
+		String name = sc.nextLine();
+		File attend = new File("./Attendance/"+name+".txt");
+		
+		
+		
 	}
 
 	// 출결확인
