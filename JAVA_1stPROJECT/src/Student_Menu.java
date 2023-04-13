@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
@@ -61,7 +62,7 @@ public class Student_Menu extends Menu {
 //						if (!chkId) {
 //							System.out.println("사용 가능한 ID 입니다.");
 //							getAccountId = tmp;
-//							choice++;
+							choice++;
 //							flag = false;
 //						} else {
 //							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
@@ -93,6 +94,7 @@ public class Student_Menu extends Menu {
 				} else {
 					System.out.print("정상적으로 입력하였습니다.");
 					choice++;
+					break;
 				}
 			case 4:
 				try {
@@ -136,29 +138,29 @@ public class Student_Menu extends Menu {
 						}
 						
 						
-						FileInputStream fis = null;
-						BufferedInputStream bis = null;
-						ObjectInputStream ois = null;
-						
-						try {
-							fis = new FileInputStream(fileS);
-							bis = new BufferedInputStream(fis);
-							ois = new ObjectInputStream(bis);
-							Object user = null;
-							while((user = ois.readObject()) != null) {
-								System.out.println(((Account)user).toString());
-							}
-						} catch (Exception e2) {
-							e2.printStackTrace();
-						} finally {
-							try {
-								ois.close();
-								bis.close();
-								fis.close();
-							} catch (Exception e3) {
-								e3.printStackTrace();
-							}
-						}
+//						FileInputStream fis = null;
+//						BufferedInputStream bis = null;
+//						ObjectInputStream ois = null;
+//						
+//						try {
+//							fis = new FileInputStream(filename);
+//							bis = new BufferedInputStream(fis);
+//							ois = new ObjectInputStream(bis);
+//							Object user = null;
+//							while((user = ois.readObject()) != null) {
+//								System.out.println(((Account)user).toString());
+//							}
+//						} catch (Exception e2) {
+//							e2.printStackTrace();
+//						} finally {
+//							try {
+//								ois.close();
+//								bis.close();
+//								fis.close();
+//							} catch (Exception e3) {
+//								e3.printStackTrace();
+//							}
+//						}
 					}
 				}
 				run = true;
@@ -288,6 +290,7 @@ public class Student_Menu extends Menu {
 		}
 	}
 
+	
 	@Override
 	void MenuRun() {
 		System.out.println("1. 가입 2. 로그인 3. 출석 4. 출결확인 5. 정보 수정 6. 종료");
@@ -317,6 +320,8 @@ public class Student_Menu extends Menu {
 			MenuRun();
 			break;
 		case 6:
+			
+		case 7:
 			System.exit(0);
 		}
 	}
