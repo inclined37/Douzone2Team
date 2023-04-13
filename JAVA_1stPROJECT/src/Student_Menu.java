@@ -1,22 +1,51 @@
-import java.io.*;
-import java.util.*;
+import java.awt.print.Book;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.security.KeyStore.Entry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
-	
+ 
+    private boolean dataChange;
+    //데이터가 변경되었는지 여부를 나타내는 변수선언 데이터가 변경되면 
+    //이 변수값이 true가된다.
+    private String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
 	//super.login(map);
 	
+// 	public boolean loginlog() {
+// 		boolean bo = false;
+// 		String str = "minaci@naver.com";
+// 		smap=(HashMap<String,Account>)load();
+//     	if(smap==null){ //파일이 없거나 입출력 오류일때
+// 		smap = new HashMap<>();
+// 		}
+//     	smap.get(str);
+//     	if(smap!=null){
+//     		bo = !bo;
+//     	}
+//     	return bo;
+// 	}
+// 	
 	public void signUp() {
-		HashMap smap =  super.map;
+		
 		String getAccountId = "";
 		String getPassWord = "";
 		String getName = "";
 		String getPhoneNumber = "";
 		int getClassNumber = 0;
-		//반이름
-		String className="";
+
 		Account account;
 
 		String idPattern = "^.+@[^\\\\.].*\\\\.[a-z]{2,}$"; // 이메일 형식
@@ -49,17 +78,16 @@ public class Student_Menu extends Menu {
 						flag = true;
 					} else {// false면 통과
 						boolean chkId = true;
-						getAccountId = tmp;
-						// chkId = findEmail(tmp);
-//						if (!chkId) {
-//							System.out.println("사용 가능한 ID 입니다.");
-//							getAccountId = tmp;
+						chkId = findEmail(tmp);
+						if (!chkId) {
+							System.out.println("사용 가능한 ID 입니다.");
+							getAccountId = tmp;
 							choice++;
-//							flag = false;
-//						} else {
-//							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
-//							flag = true;
-//						}
+							flag = false;
+						} else {
+							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+							flag = true;
+						}
 					}
 				}
 			case 2:
@@ -93,13 +121,6 @@ public class Student_Menu extends Menu {
 				try {
 					System.out.print("반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
 					getClassNumber = sc.nextInt();
-					//클래스 번호별로 폴더 설정
-					if(getClassNumber==1) {
-						className="Douzone";
-					}else if(getClassNumber==2) {
-						className="Hyundai";
-					}
-					
 				} catch (NumberFormatException e) {
 					System.out.println("숫자가 아닌 문자로 입력하셨습니다.");
 				} finally {
@@ -109,92 +130,22 @@ public class Student_Menu extends Menu {
 					} else {
 						System.out.print("모든 정보가 정상적으로 입력되었습니다.");
 						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
-						accounts.add(acc);
-						smap.put(getAccountId, acc);
+						accounts.add(acc); // 회원정보 ArrayList 생성
+						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성 
+						System.out.println("******" + map.get(getAccountId).getName());
+						save(map); //여기까지는 타
 						
-						FileOutputStream fos = null;
-						BufferedOutputStream bos = null;
-						ObjectOutputStream oos = null;
+						load();
 						
-						//학생 개인 근태 파일
-						File fileS = new File("D:\\Team2\\Douzone2Team\\JAVA_1stPROJECT\\Attendance\\"+className+"\\"+getName+".txt");
-						
-						
-						try {
-							fos = new FileOutputStream(fileS, true);
-							bos = new BufferedOutputStream(fos);
-							oos = new ObjectOutputStream(bos);
-							
-							oos.writeUTF(acc.toString());
-							
-						}catch (Exception e) {
-							e.printStackTrace();
-						} finally {
-							try {
-								oos.close();
-								bos.close();
-								fos.close();
-							} catch (Exception e2){
-								e2.printStackTrace();
-							}
-						}
+						//HashMap<String, Account> ac = (HashMap<String, Account>)load();
+						//System.out.println(ac);
+						//System.out.println("test" + ac.get(getName).getName());
 						
 						
-						//파일 저장하고 읽어오는 method 작성 예정(하단 무시)
 						
-						
-//						String filename = "name.txt";
-//						
-//						FileOutputStream fos = null;
-//						BufferedOutputStream bos = null;
-//						ObjectOutputStream oos = null;
-//						
-//						try {
-//							fos = new FileOutputStream(filename, true);
-//							bos = new BufferedOutputStream(fos);
-//							oos = new ObjectOutputStream(bos);
-//							
-//							oos.writeObject(smap);
-//							
-//						}catch (Exception e) {
-//							e.printStackTrace();
-//						} finally {
-//							try {
-//								oos.close();
-//								bos.close();
-//								fos.close();
-//							} catch (Exception e2){
-//								e2.printStackTrace();
-//							}
-//						}
-//						
-//						
-//						FileInputStream fis = null;
-//						BufferedInputStream bis = null;
-//						ObjectInputStream ois = null;
-//						
-//						try {
-//							fis = new FileInputStream(filename);
-//							bis = new BufferedInputStream(fis);
-//							ois = new ObjectInputStream(bis);
-//						
-//							smap2 = (HashMap)ois.readObject();
-//							Set<String> set = smap2.keySet();
-//							
-//							for(String str : set) {
-//								System.out.println(smap2.get(getAccountId).toString());
-//							}
-//						} catch (Exception e2) {
-//							e2.printStackTrace();
-//						} finally {
-//							try {
-//								ois.close();
-//								bis.close();
-//								fis.close();
-//							} catch (Exception e3) {
-//								e3.printStackTrace();
-//							}
-//						}
+						//HashMap<String,Account> m = load();
+						//System.out.println(m.get(getAccountId).getName());
+ 
 					}
 				}
 				run = true;
@@ -204,22 +155,23 @@ public class Student_Menu extends Menu {
 
 	}
 
-	// 이메일주소 일치 확인
-//	public boolean findEmail(String email) {
-//		for (Account ac : this.accounts) {
-//			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-//				return true;
-//			}
-//		}
-//		return false; // 통과
-//	}
-
+//	 이메일주소 일치 확인
+	public boolean findEmail(String email) {
+		for (Account ac : this.accounts) {
+			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
+				return true;
+			}
+		}
+		return false; // 통과
+	}
 
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
 		String name = sc.nextLine();
-		File attend = new File("./Attendance/Douzone/"+name+".txt");
-				
+		File attend = new File("./Attendance/"+name+".txt");
+		
+		
+		
 	}
 
 	// 출결확인
@@ -227,25 +179,25 @@ public class Student_Menu extends Menu {
 	void checkAttendance() {
 		Scanner sc = new Scanner(System.in);
 		boolean run = false;
-		
-		while(!run) {
+
+		while (!run) {
 			System.out.print("[1]나의근태 현황  [2]그룹근태 현황  [0]돌아가기  :");
 			int menu = Integer.parseInt(sc.nextLine());
 			System.out.println();
-			
-			switch(menu) {
+
+			switch (menu) {
 			case 1:
-				//나의 근태 현황 가져오기~ (전부)
+				// 나의 근태 현황 가져오기~ (전부)
 				break;
-				
+
 			case 2:
-				//같은 반 학생들의 근태 현황 가져오기~ (당일)
+				// 같은 반 학생들의 근태 현황 가져오기~ (당일)
 				break;
-				
+
 			case 0:
 				run = true;
 				break;
-				
+
 			default:
 				System.out.println("잘못된 메뉴를 선택하셨습니다.");
 			}
@@ -255,25 +207,26 @@ public class Student_Menu extends Menu {
 	@Override
 	void editInfo() {
 		Scanner sc = new Scanner(System.in);
-		//비밀번호 입력
-		
-		//1. 비밀번호가 맞으면
-			//휴대폰 번호 수정
-				//1.1 양식에 어긋나면, 재 입력
-			//비밀번호 변경
-				//1.1 양식에 어긋나면, 재 입력
-				//1.2 (비밀번호) 일치 안하면, 재 입력
-		//2. 비밀번호가 틀리면
-			//재 입력
-		String password="";
+
+		// 비밀번호 입력
+
+		// 1. 비밀번호가 맞으면
+		// 휴대폰 번호 수정
+		// 1.1 양식에 어긋나면, 재 입력
+		// 비밀번호 변경
+		// 1.1 양식에 어긋나면, 재 입력
+		// 1.2 (비밀번호) 일치 안하면, 재 입력
+		// 2. 비밀번호가 틀리면
+		// 재 입력
+		String password = "";
 		boolean run = false;
-		while(!run) {
-			if(password.equals("")) {
+		while (!run) {
+			if (password.equals("")) {
 				System.out.print("비밀번호를 입력하세요: ");
 				password = sc.nextLine();
 				System.out.println();
-				
-				if(!password.contains(password)) {
+
+				if (!password.contains(password)) {
 					System.out.println("비밀번호가 일치하지 않습니다.");
 					password = "";
 				}
@@ -281,45 +234,48 @@ public class Student_Menu extends Menu {
 				System.out.print("메뉴를 선택하세요: [1]휴대폰 번호 변경  [2]비밀번호 변경  [0]이전 메뉴로 돌아가기 : ");
 				int menu = Integer.parseInt(sc.nextLine());
 				System.out.println();
-				
-				switch(menu) {
+
+				switch (menu) {
 				case 1:
-					//휴대폰 번호 변경
+					// 휴대폰 번호 변경
 					System.out.print("변경할 휴대폰 번호를 입력하세요: ");
 					String phoneNumber = sc.nextLine();
 					System.out.println();
-					if(!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber)) {
+					if (!Pattern.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", phoneNumber)) {
 						System.out.println("휴대폰 번호 형식에 맞지 않습니다.");
 					} else {
-						//휴대폰 번호 변경~~
+						// 휴대폰 번호 변경~~
 					}
 					break;
-					
+
 				case 2:
-					//비밀번호 변경
+					// 비밀번호 변경
 					System.out.print("새 비밀번호를 입력하세요: \n글자 수 제한 10~16자\n(영문자, 숫자 포함, 특수문자 포함)");
 					String newPassword = sc.nextLine();
 					System.out.println();
-					if(!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)([!@#$%*?&]?)[A-Za-z\\d!@#$%*?&]{10,16}$",newPassword)) {
+					if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)([!@#$%*?&]?)[A-Za-z\\d!@#$%*?&]{10,16}$",
+							newPassword)) {
 						System.out.println("입력하신 비밀번호가 양식에 맞지 않습니다.");
 					} else {
 						System.out.print("비밀번호를 한번 더 입력하세요: ");
 						String newPasswordCheck = sc.nextLine();
 						System.out.println();
-						//비밀번호가 일치 안 하는 경우
-						if(!newPassword.equals(newPasswordCheck)) {
+
+						// 비밀번호가 일치 안 하는 경우
+						if (!newPassword.equals(newPasswordCheck)) {
 							System.out.println("비밀번호가 일치하지 않습니다.");
 						} else {
 							System.out.println("비밀번호가 변경되었습니다.");
-							//비밀번호 변경~~
+							// 비밀번호 변경~~
 						}
 					}
 					break;
-					
+
 				case 0:
 					run = true;
 					break;
-					
+
+
 				default:
 					System.out.println("잘못된 메뉴를 선택하셨습니다.");
 				}
@@ -332,7 +288,7 @@ public class Student_Menu extends Menu {
 	void MenuRun() {
 		//login();
 		Scanner sc = new Scanner(System.in);
-
+		//load();
 		//  가입/로그인
 		boolean run1 = false;
 		while(!run1) {
@@ -381,5 +337,102 @@ public class Student_Menu extends Menu {
 			}
 		}
 	}
+	
+	
+	private void save(HashMap<String,Account> map) { //직렬화(저장)만 하면 된다. 
+		
+		
+		File file = new File(fileName);
+		ObjectOutputStream oos = null; 
+
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(fileName,true));
+			oos.writeObject(super.map);
+			System.out.println("저장이 완료되었습니다.");
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+				if(oos != null) {
+				try{
+					oos.close();
+				}catch(IOException e) {	
+					}
+				}
+				dataChange=false; //oos가 null 경우 
+			}
+		}
+	public void load() {
+		File file = new File(fileName);
+        FileInputStream fis = null;
+        ObjectInputStream oos = null;
+		try {
+			fis = new FileInputStream(file);
+			oos = new ObjectInputStream(fis);
+			Map<String, Account> mapTest= (HashMap)oos.readObject();
+			System.out.println("불러온 유저수 : "+mapTest.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}  
+	}
+//	public Object load() { //읽어오기(역직렬화)
+//		
+//		File file = new File(fileName);
+//		Object oj =null;
+//		
+//		if(!file.exists()) {
+//			System.out.println("파일이 없어요");
+//		}
+//		ObjectInputStream ois = null;
+//		try {
+//			//파일 입력용 스트림 객체 생성
+//			ois = new ObjectInputStream(new FileInputStream(file));
+////			HashMap<String, Account> pMap = (HashMap<String, Account>) ois.readObject();
+////			Set set = pMap.entrySet();
+//			oj = ois.readObject();
+////			while ((oj = ois.readObject()) != null) {
+////				//
+////			}
+//			
+////			while ((oj = ois.readObject()) != null) {
+////				for (Map.Entry<String, Account> entry : ((HashMap<String, Account>) oj).entrySet())
+////				{
+////				    System.out.println (entry.getValue());
+////				    System.out.println("여기 탔어????????????????????");
+////				}
+////			}
+//			 
+//		
+////			Set set = pMap.entrySet(); // Map(key,value) 가공 >> key +"="+value //쌍으로 중복 없애줌 쌍으로 볼 수 있고  
+////		 	Iterator it = set.iterator();
+////		 	while(it.hasNext()) {
+////		 		System.out.println(it.next()); 
+////		 	}
+//		 	
+//			
+////		 	for(Map.Entry m : smap.entrySet()) { //키와 값을 각각 볼 수있다. 다시한번 보기 
+////		 		 System.out.println(m.getKey() + " / " + ((Student)m.getValue()).name);
+////		 	 }
+//
+//		}
+//		catch(FileNotFoundException e) {
+//			System.out.println("파일이 없네요");
+//		} catch (IOException e) {
+//			//handle exception
+//			System.out.println("에러네요");
+//			//return null;
+//		} catch (ClassNotFoundException e) {
+//			//Auto-generated catch block
+//			System.out.println("에러네요");
+//			//return null;
+//		} finally{
+//			if(ois!=null)
+//				try {
+//					ois.close();
+//				} catch (IOException e) {
+//					//handle exception
+//				}
+//			}
+//		return oj;
+//		}
 
 }
