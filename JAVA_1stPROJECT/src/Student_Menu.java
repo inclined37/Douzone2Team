@@ -1,15 +1,5 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
@@ -25,7 +15,8 @@ public class Student_Menu extends Menu {
 		String getName = "";
 		String getPhoneNumber = "";
 		int getClassNumber = 0;
-
+		//반이름
+		String className="";
 		Account account;
 
 		String idPattern = "^.+@[^\\\\.].*\\\\.[a-z]{2,}$"; // 이메일 형식
@@ -102,6 +93,13 @@ public class Student_Menu extends Menu {
 				try {
 					System.out.print("반번호를 입력해주세요(1:(더존) or 2:(현대) 중 번호 선택");
 					getClassNumber = sc.nextInt();
+					//클래스 번호별로 폴더 설정
+					if(getClassNumber==1) {
+						className="Douzone";
+					}else if(getClassNumber==2) {
+						className="Hyundai";
+					}
+					
 				} catch (NumberFormatException e) {
 					System.out.println("숫자가 아닌 문자로 입력하셨습니다.");
 				} finally {
@@ -119,7 +117,8 @@ public class Student_Menu extends Menu {
 						ObjectOutputStream oos = null;
 						
 						//학생 개인 근태 파일
-						File fileS = new File(getName+".txt");
+						File fileS = new File("D:\\Team2\\Douzone2Team\\JAVA_1stPROJECT\\Attendance\\"+className+"\\"+getName+".txt");
+						
 						
 						try {
 							fos = new FileOutputStream(fileS, true);
@@ -219,10 +218,8 @@ public class Student_Menu extends Menu {
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
 		String name = sc.nextLine();
-		File attend = new File("./Attendance/"+name+".txt");
-		
-		
-		
+		File attend = new File("./Attendance/Douzone/"+name+".txt");
+				
 	}
 
 	// 출결확인
