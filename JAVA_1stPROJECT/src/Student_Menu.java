@@ -22,7 +22,9 @@ public class Student_Menu extends Menu {
     private boolean dataChange;
     private String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
+	Map<String, Account> savelogin;
  
+	@SuppressWarnings("unlikely-arg-type")
 	public void signUp() {
 		
 		String getAccountId = "";
@@ -51,7 +53,6 @@ public class Student_Menu extends Menu {
 				choice++;
 			case 1:
 				boolean flag = true;
-
 				while (flag) { // true이면 계속 돌고 false은 통과!!!!!!!
 					System.out.print("회원가입 하실 이메일 주소를 입력해주세요 (example@gmail.com) :");
 					flag = false;
@@ -62,15 +63,14 @@ public class Student_Menu extends Menu {
 						System.out.print("이메일 형식이 잘못되었습니다.다시 입력해주세요");
 						flag = true;
 					} else {// false면 통과
-						boolean chkId = true;
-						chkId = findEmail(tmp);
-						if (!chkId) {
+						savelogin=load(); //정보 가져오기 
+						if(!savelogin.containsKey(tmp)) { //다르면 사용 가능하다.
 							System.out.println("사용 가능한 ID 입니다.");
 							getAccountId = tmp;
 							choice++;
 							flag = false;
-						} else {
-							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
+						}else {
+							System.out.println("ID가 존재합니다. 다른 ID로 입력해주세요.");
 							flag = true;
 						}
 					}
@@ -118,19 +118,7 @@ public class Student_Menu extends Menu {
 						accounts.add(acc); // 회원정보 ArrayList 생성
 						map.put(getAccountId, acc); // ArrayList에 생성된 정보 키 :id / 나머지 정보 : 값으로 생성 
 						System.out.println("******" + map.get(getAccountId).getName());
-						save(map); //여기까지는 타
-						
-						load();
-						
-						//HashMap<String, Account> ac = (HashMap<String, Account>)load();
-						//System.out.println(ac);
-						//System.out.println("test" + ac.get(getName).getName());
-						
-						
-						
-						//HashMap<String,Account> m = load();
-						//System.out.println(m.get(getAccountId).getName());
- 
+						save(map);  
 					}
 				}
 				run = true;
@@ -138,16 +126,6 @@ public class Student_Menu extends Menu {
 			}
 		}
 
-	}
-
-//	 이메일주소 일치 확인
-	public boolean findEmail(String email) {
-		for (Account ac : this.accounts) {
-			if (ac.getAccountId().equals(email)) { // 같으면 다시 입력
-				return true;
-			}
-		}
-		return false; // 통과
 	}
 
 	public void attendance() {
@@ -273,8 +251,9 @@ public class Student_Menu extends Menu {
 	void MenuRun() {
 		//login();
 		Scanner sc = new Scanner(System.in);
-		//load();
-		//  가입/로그인
+		load(); // 로그인 계정 저장했던 정보 갖여오기 
+		
+		
 		boolean run1 = false;
 		while(!run1) {
 			System.out.println("********************************************");
@@ -346,7 +325,7 @@ public class Student_Menu extends Menu {
 				dataChange=false; //oos가 null 경우 
 			}
 		}
-	public void load() {
+	public Map<String,Account> load() {
 		File file = new File(fileName);
         FileInputStream fis = null;
         ObjectInputStream oos = null;
@@ -355,69 +334,16 @@ public class Student_Menu extends Menu {
 			oos = new ObjectInputStream(fis);
 			Map<String, Account> mapTest= (HashMap)oos.readObject();
 			System.out.println("불러온 유저수 : "+mapTest.size());
+			oos.close();
+			fis.close();
+			return mapTest;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}  
-	}
-//	public Object load() { //읽어오기(역직렬화)
-//		
-//		File file = new File(fileName);
-//		Object oj =null;
-//		
-//		if(!file.exists()) {
-//			System.out.println("파일이 없어요");
-//		}
-//		ObjectInputStream ois = null;
-//		try {
-//			//파일 입력용 스트림 객체 생성
-//			ois = new ObjectInputStream(new FileInputStream(file));
-////			HashMap<String, Account> pMap = (HashMap<String, Account>) ois.readObject();
-////			Set set = pMap.entrySet();
-//			oj = ois.readObject();
-////			while ((oj = ois.readObject()) != null) {
-////				//
-////			}
-//			
-////			while ((oj = ois.readObject()) != null) {
-////				for (Map.Entry<String, Account> entry : ((HashMap<String, Account>) oj).entrySet())
-////				{
-////				    System.out.println (entry.getValue());
-////				    System.out.println("여기 탔어????????????????????");
-////				}
-////			}
-//			 
-//		
-////			Set set = pMap.entrySet(); // Map(key,value) 가공 >> key +"="+value //쌍으로 중복 없애줌 쌍으로 볼 수 있고  
-////		 	Iterator it = set.iterator();
-////		 	while(it.hasNext()) {
-////		 		System.out.println(it.next()); 
-////		 	}
-//		 	
-//			
-////		 	for(Map.Entry m : smap.entrySet()) { //키와 값을 각각 볼 수있다. 다시한번 보기 
-////		 		 System.out.println(m.getKey() + " / " + ((Student)m.getValue()).name);
-////		 	 }
-//
-//		}
-//		catch(FileNotFoundException e) {
-//			System.out.println("파일이 없네요");
-//		} catch (IOException e) {
-//			//handle exception
-//			System.out.println("에러네요");
-//			//return null;
-//		} catch (ClassNotFoundException e) {
-//			//Auto-generated catch block
-//			System.out.println("에러네요");
-//			//return null;
-//		} finally{
-//			if(ois!=null)
-//				try {
-//					ois.close();
-//				} catch (IOException e) {
-//					//handle exception
-//				}
-//			}
-//		return oj;
-//		}
+			System.out.println("불러오는데 실패하였습니다.");
+			return null;
+			}
+		}
+ 
 
 }
