@@ -13,8 +13,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Student_Menu extends Menu {
-	String filename = "db.txt";
-	File fileS = new File(filename);
 	
 	public List<Account> accounts = new ArrayList<>();
 	//public HashMap<String,Account> map = new HashMap<>();
@@ -60,11 +58,12 @@ public class Student_Menu extends Menu {
 						flag = true;
 					} else {// false면 통과
 						boolean chkId = true;
+						getAccountId = tmp;
 						// chkId = findEmail(tmp);
 //						if (!chkId) {
 //							System.out.println("사용 가능한 ID 입니다.");
 //							getAccountId = tmp;
-//							choice++;
+							choice++;
 //							flag = false;
 //						} else {
 //							System.out.println("사용하는 ID가 있습니다.다시 입력해주세요");
@@ -95,7 +94,9 @@ public class Student_Menu extends Menu {
 					break;
 				} else {
 					System.out.print("정상적으로 입력하였습니다.");
+					getPhoneNumber=tmp;
 					choice++;
+					break;
 				}
 			case 4:
 				try {
@@ -112,6 +113,33 @@ public class Student_Menu extends Menu {
 						Account acc = new Account(getName, getAccountId, getPassWord, getPhoneNumber, getClassNumber);
 						accounts.add(acc);
 						smap.put(getAccountId, acc);
+						
+						FileOutputStream fos = null;
+						BufferedOutputStream bos = null;
+						ObjectOutputStream oos = null;
+						
+						//학생 개인 근태 파일
+						File fileS = new File(getName+".txt");
+						
+						try {
+							fos = new FileOutputStream(fileS, true);
+							bos = new BufferedOutputStream(fos);
+							oos = new ObjectOutputStream(bos);
+							
+							oos.writeUTF(acc.toString());
+							
+						}catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							try {
+								oos.close();
+								bos.close();
+								fos.close();
+							} catch (Exception e2){
+								e2.printStackTrace();
+							}
+						}
+						
 						
 						//파일 저장하고 읽어오는 method 작성 예정(하단 무시)
 						
@@ -189,7 +217,12 @@ public class Student_Menu extends Menu {
 
 
 	public void attendance() {
-
+		Scanner sc = new Scanner(System.in);
+		String name = sc.nextLine();
+		File attend = new File("./Attendance/"+name+".txt");
+		
+		
+		
 	}
 
 	// 출결확인
@@ -297,10 +330,12 @@ public class Student_Menu extends Menu {
 		}
 	}
 
+	
 	@Override
 	void MenuRun() {
 		//login();
 		Scanner sc = new Scanner(System.in);
+
 		//  가입/로그인
 		boolean run1 = false;
 		while(!run1) {

@@ -15,11 +15,11 @@ public class Timeinout_Main {
 		
 		switch(select) {
 		case 1:
-			System.out.println("학생메뉴를 실행합니다.");
+			System.out.println("학생 메뉴를 실행합니다.");
 			Student_Menu sm = new Student_Menu();
 			sm.MenuRun();
 		case 2:
-			System.out.println("학생메뉴를 실행합니다.");
+			System.out.println("관리자 메뉴를 실행합니다.");
 			Admin_Menu am = new Admin_Menu();
 			am.MenuRun();
 		}
