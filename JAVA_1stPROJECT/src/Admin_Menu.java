@@ -14,7 +14,7 @@ public class Admin_Menu extends Menu {
 
 	@Override
 	void checkAttendance() {
-		
+
 		// 관리자는 모든 학생의 출결정보를 조회할 수 있다
 		// 1. 관리자는 학생 출결 조회 메뉴로 간다.
 		// 2. 관리자는 학생들의 출결을 조회한다.
@@ -23,7 +23,7 @@ public class Admin_Menu extends Menu {
 		Scanner sc = new Scanner(System.in);
 		boolean run = false;
 
-		// 출석파일 정보 얻기 
+		// 출석파일 정보 얻기
 //		File file = new File("출석파일.txt");
 //		
 //		try {
