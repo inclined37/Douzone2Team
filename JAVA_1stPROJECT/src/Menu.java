@@ -91,9 +91,10 @@ public abstract class Menu {
 			fis = new FileInputStream(file);
 			oos = new ObjectInputStream(fis);
 			map = (HashMap) oos.readObject();
-			System.out.println("불러온 유저수 : " + map.size());
+			//System.out.println("불러온 유저수 : " + map.size());
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("첫번째 회원이 되어보세요");
 		}
 	}
 	

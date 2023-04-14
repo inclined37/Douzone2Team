@@ -18,7 +18,7 @@ public class Account implements Serializable {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.classNumber = classNumber;
-		System.out.println(this.name + "님 가입을 환영합니다!");
+		System.out.println(this.toString() + "생성하였습니다.");
 
 	}
 
@@ -58,8 +58,8 @@ public class Account implements Serializable {
 	@Override
 	public String toString() {
 
-		return "내 정보 :[이름=" + name + ", 아이디=" + accountId + ", 휴대폰 번호=" + phoneNumber + ", 현재 비밀번호="
-				+ passWord + ", 반 번호=" + classNumber + "]";
+		return "[이름=" + name + ", 아이디=" + accountId + ", 휴대폰 번호=" + phoneNumber + ", 현재 비밀번호="
+				+ passWord + ", 현재 반번호=" + classNumber + "]";
 	}
 
 }
