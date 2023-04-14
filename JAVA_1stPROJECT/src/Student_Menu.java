@@ -14,8 +14,9 @@ public class Student_Menu extends Menu {
 	public String loginID = "";
 
 	public void signUp() {
-		load(fileName); // 기존 id 정보 확인하기 위하여 load
-
+		//load(fileName); // 기존 id 정보 확인하기 위하여 load
+		
+		load(fileName);
 		String tmp = "";
 		String getAccountId = "";
 		String getPassWord = "";
@@ -121,7 +122,7 @@ public class Student_Menu extends Menu {
 					+ (String) now.format(date);
 
 		try {
-			//writelist(path, data);
+			writelist(path, data);
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
@@ -190,6 +191,8 @@ public class Student_Menu extends Menu {
 							System.out.println(line);
 						}
 					}
+					br.close();
+					fr.close();
 				} catch(Exception ea) {
 					//ea.printStackTrace();
 				}
@@ -206,6 +209,8 @@ public class Student_Menu extends Menu {
 							System.out.println(line);
 						}
 					}
+					br.close();
+					fr.close();
 				} catch(Exception ea) {
 					//ea.printStackTrace();
 				}
@@ -301,11 +306,16 @@ public class Student_Menu extends Menu {
 		}
 	}
 
+	
+	
 	@Override
 	void MenuRun() {
-	
 		Scanner sc = new Scanner(System.in);
- 
+		try {
+			
+		} catch (Exception e) {
+			
+		}
 		boolean run1 = false;
 		while (!run1) {
 			System.out.println("********************************************");

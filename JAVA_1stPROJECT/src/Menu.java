@@ -92,10 +92,11 @@ public abstract class Menu {
 			oos = new ObjectInputStream(fis);
 			map = (HashMap) oos.readObject();
 			//System.out.println("불러온 유저수 : " + map.size());
+			oos.close();
+			fis.close();
 		} catch (Exception e) {
 			//e.printStackTrace();
-			System.out.println("첫 회원이 되신걸 축하합니다~^^");
-		}
+		} 
 	}
 	
 	public void loadlist(String path) throws IOException{
@@ -109,12 +110,14 @@ public abstract class Menu {
 			    String s = br1.readLine();
 			    if(s == null) break;
 			    System.out.println(s);
+			    br1.close();
+			    fr.close();
 		    }
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
 	
-		br1.close();
+		//br1.close();
 	}
 	
 	public void writelist(String path, String data) throws IOException{
@@ -125,10 +128,13 @@ public abstract class Menu {
 		
 		try {
 		    pw.println(data);
+		    pw.close();
+		    bw.close();
+		    fw.close();
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
-		pw.close();
+		//pw.close();
 	}	
 	
 }
