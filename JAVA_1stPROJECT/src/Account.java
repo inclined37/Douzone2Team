@@ -43,6 +43,14 @@ public class Account implements Serializable {
 	}
 
 
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public void setClassNumber(int classNumber) {
 		this.classNumber = classNumber;
 	}
@@ -50,8 +58,8 @@ public class Account implements Serializable {
 	@Override
 	public String toString() {
 
-		return "Account [이름=" + name + ", accountId=" + accountId + ", phoneNumber=" + phoneNumber + ", passWord="
-				+ passWord + ", classNumber=" + classNumber + "]";
+		return "[이름=" + name + ", 아이디=" + accountId + ", 휴대폰 번호=" + phoneNumber + ", 현재 비밀번호="
+				+ passWord + ", 현재 반번호=" + classNumber + "]";
 	}
 
 }
