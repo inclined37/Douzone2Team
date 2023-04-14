@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -6,11 +7,12 @@ public class Admin_Menu extends Menu {
 	@Override
 	void checkAttendance() {
 		String path = "./Attendance/attendance.txt";
-        try {
-		    loadlist(path);
-        }catch (Exception e) {
-        	//e.printStackTrace();
-        }
+		try {
+			loadlist(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

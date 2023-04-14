@@ -94,6 +94,7 @@ public abstract class Menu {
 			//System.out.println("불러온 유저수 : " + map.size());
 		} catch (Exception e) {
 			//e.printStackTrace();
+			System.out.println("첫 회원이 되신걸 축하합니다~^^");
 		}
 	}
 	
