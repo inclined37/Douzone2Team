@@ -91,9 +91,9 @@ public abstract class Menu {
 			fis = new FileInputStream(file);
 			oos = new ObjectInputStream(fis);
 			map = (HashMap) oos.readObject();
-			System.out.println("불러온 유저수 : " + map.size());
+			//System.out.println("불러온 유저수 : " + map.size());
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -110,7 +110,7 @@ public abstract class Menu {
 			    System.out.println(s);
 		    }
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	
 		br1.close();
@@ -125,7 +125,7 @@ public abstract class Menu {
 		try {
 		    pw.println(data);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		pw.close();
 	}	

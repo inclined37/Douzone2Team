@@ -9,7 +9,7 @@ public class Admin_Menu extends Menu {
         try {
 		    loadlist(path);
         }catch (Exception e) {
-        	e.printStackTrace();
+        	//e.printStackTrace();
         }
 	}
 

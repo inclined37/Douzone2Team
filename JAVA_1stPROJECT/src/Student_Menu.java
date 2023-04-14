@@ -123,7 +123,7 @@ public class Student_Menu extends Menu {
 		try {
 			writelist(path, data);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		if (flag == 1)
@@ -191,7 +191,7 @@ public class Student_Menu extends Menu {
 						}
 					}
 				} catch(Exception ea) {
-					ea.printStackTrace();
+					//ea.printStackTrace();
 				}
 				break;
 
@@ -207,7 +207,7 @@ public class Student_Menu extends Menu {
 						}
 					}
 				} catch(Exception ea) {
-					ea.printStackTrace();
+					//ea.printStackTrace();
 				}
 				break;
 
