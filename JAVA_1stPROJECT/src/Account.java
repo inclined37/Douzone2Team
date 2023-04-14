@@ -43,14 +43,6 @@ public class Account implements Serializable {
 	}
 
 
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public void setClassNumber(int classNumber) {
 		this.classNumber = classNumber;
 	}
