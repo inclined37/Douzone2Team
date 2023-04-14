@@ -162,6 +162,12 @@ public class Student_Menu extends Menu {
 	// 출결확인
 	@Override
 	void checkAttendance() {
+		String path = "./Attendance/attendance.txt";
+		String keyword = loginId;
+		String classNum = String.valueOf(map.get(loginId).getClassNumber());
+		FileReader fr = null;
+		BufferedReader br = null;
+		
 		Scanner sc = new Scanner(System.in);
 		boolean run = false;
 
@@ -172,25 +178,36 @@ public class Student_Menu extends Menu {
 			
 			switch (menu) {
 			case 1:
-				path = "./Attendance/" + loginId + ".txt";
+
+				// 나의 근태 현황 가져오기~ (전부)
 				try {
-					FileReader fr = new FileReader(path);
-					BufferedReader br = new BufferedReader(fr);
-					//라인
+					fr = new FileReader(path);
+					br = new BufferedReader(fr);
 					String line = "";
 					for(int i=0; (line = br.readLine()) != null; i++) {
-						if(line.indexOf(";") != -1) {
+						if(line.indexOf(keyword) != -1) {
 							System.out.println(line);
 						}
 					}
-					
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch(Exception ea) {
+					ea.printStackTrace();
 				}
 				
 				break;
 			case 2:
-				
+				// 같은 반 학생들의 근태 현황 가져오기~ (당일)
+				try {
+					fr = new FileReader(path);
+					br = new BufferedReader(fr);
+					String line = "";
+					for(int i=0; (line = br.readLine()) != null; i++) {
+						if(line.indexOf(classNum) != -1) {
+							System.out.println(line);
+						}
+					}
+				} catch(Exception ea) {
+					ea.printStackTrace();
+				}
 				break;
 
 			case 0:
