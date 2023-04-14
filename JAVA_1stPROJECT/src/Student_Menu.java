@@ -1,7 +1,9 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class Student_Menu extends Menu {
 	public String fileName = "test.txt";
 	public List<Account> accounts = new ArrayList<>();
 	public String loginID="";
+	String path="";
 
 	public void signUp() {
 		load(fileName);
@@ -126,7 +129,7 @@ public class Student_Menu extends Menu {
 
 	public void attendance() {
 		Scanner sc = new Scanner(System.in);
-		String path = "./Attendance/" + loginId + ".txt";
+		path = "./Attendance/" + loginId + ".txt";
 		File attend = new File(path);
 		
 		LocalDateTime now = LocalDateTime.now();
@@ -164,14 +167,28 @@ public class Student_Menu extends Menu {
 			System.out.print("[1]나의근태 현황  [2]그룹근태 현황  [0]돌아가기  :");
 			int menu = Integer.parseInt(sc.nextLine());
 			System.out.println();
-
+			
 			switch (menu) {
 			case 1:
-				// 나의 근태 현황 가져오기~ (전부)
+				path = "./Attendance/" + loginId + ".txt";
+				try {
+					FileReader fr = new FileReader(path);
+					BufferedReader br = new BufferedReader(fr);
+					//라인
+					String line = "";
+					for(int i=0; (line = br.readLine()) != null; i++) {
+						if(line.indexOf(";") != -1) {
+							System.out.println(line);
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				break;
-
 			case 2:
-				// 같은 반 학생들의 근태 현황 가져오기~ (당일)
+				
 				break;
 
 			case 0:
