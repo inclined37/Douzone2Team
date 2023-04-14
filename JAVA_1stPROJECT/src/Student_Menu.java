@@ -121,7 +121,7 @@ public class Student_Menu extends Menu {
 					+ (String) now.format(date);
 
 		try {
-			writelist(path, data);
+			//writelist(path, data);
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
